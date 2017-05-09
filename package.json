@@ -1,0 +1,38 @@
+{
+  "name": "senior-checkpoint-tiered",
+  "version": "1.0.0",
+  "author": "Fullstack Instructors",
+  "scripts": {
+    "test": "mocha ./tests --recursive --watch --compilers js:babel-register",
+    "db-init": "pg-init checkpoint_senior_tiers",
+    "postinstall": "npm run db-init"
+  },
+  "devDependencies": {
+    "babel-core": "^6.17.0",
+    "babel-preset-es2015": "^6.16.0",
+    "babel-preset-react": "^6.16.0",
+    "babel-preset-stage-2": "^6.17.0",
+    "babel-register": "^6.16.3",
+    "bluebird": "^2.9.34",
+    "chai": "^3.2.0",
+    "chai-enzyme": "^0.5.2",
+    "chai-properties": "^1.2.1",
+    "chai-things": "^0.2.0",
+    "enzyme": "^2.5.0",
+    "faker": "^3.1.0",
+    "fs-misc": "^2.0.0",
+    "sinon": "^1.17.2",
+    "sinon-chai": "^2.8.0",
+    "supertest": "^3.0.0"
+  },
+  "dependencies": {
+    "body-parser": "^1.14.2",
+    "express": "^4.13.3",
+    "mocha": "^3.3.0",
+    "pg": "^5.1.0",
+    "react": "^15.4.1",
+    "react-dom": "^15.3.2",
+    "redux": "^3.6.0",
+    "sequelize": "^3.30.4"
+  }
+}
