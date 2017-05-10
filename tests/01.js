@@ -1,3 +1,5 @@
+'use strict';
+
 const db = require('../server/models');
 const Campus = db.model('campus');
 const chai = require('chai');
@@ -9,9 +11,9 @@ const app = require('../server/app')
 const agent = require('supertest')(app);
 
 describe('Tier One', () => {
-  beforeEach('Synchronize and clear database', () => {
-    db.sync({ force: true });
-  });
+  beforeEach('Synchronize and clear database', () =>
+    db.sync({ force: true })
+  );
 
   // Campus model (requires name)
   describe('Campus model', () => {
@@ -19,10 +21,10 @@ describe('Tier One', () => {
       const campus = Campus.build();
 
       return campus.validate()
-      .then(err => {
-        expect(err).to.be.an('object');
-        expect(err.errors).to.contain.a.thing.with.property('path', 'name');
-      })
+      .then(result => {
+        expect(result).to.be.an('object');
+        expect(result.errors).to.contain.a.thing.with.property('path', 'name');
+      });
     });
   });
 
@@ -33,7 +35,7 @@ describe('Tier One', () => {
       .get('/campuses')
       .expect(200)
       .then(response => {
-        expect(response.body).to.have.length(4);
+        expect(response.body.campuses).to.have.length(4);
       });
     });
   });

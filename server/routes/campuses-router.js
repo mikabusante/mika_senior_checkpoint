@@ -1,8 +1,11 @@
+'use strict';
+
 const express = require('express');
 const db = require('../models');
-const Campus = db.model('campus');
+const Campus = db.models.campus;
+const Student = db.models.student;
 
-// This router is already mounted on /users in server/app.js
+// This router is already mounted on /campuses in server/app.js
 const router = express.Router();
 
 module.exports = router;

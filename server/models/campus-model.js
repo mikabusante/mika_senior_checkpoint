@@ -1,5 +1,6 @@
-const db = require('./_db');
+'use strict';
 
+const db = require('./_db');
 const Campus = db.define('campus', {});
 
 module.exports = Campus;
