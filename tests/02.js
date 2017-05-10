@@ -13,7 +13,9 @@ const app = require('../server/app');
 const agent = require('supertest')(app);
 
 describe('Tier Two', () => {
-  beforeEach(() => db.sync({ force: true }))
+  beforeEach(() => db.sync({ force: true }));
+
+  after(() => db.sync({ force: true }));
 
   // Student model (name, ENUM for phase)
   describe('Student model', () => {

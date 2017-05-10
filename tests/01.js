@@ -11,9 +11,9 @@ const app = require('../server/app')
 const agent = require('supertest')(app);
 
 describe('Tier One', () => {
-  beforeEach('Synchronize and clear database', () =>
-    db.sync({ force: true })
-  );
+  beforeEach(() => db.sync({ force: true }));
+
+  after(() => db.sync({ force: true }));
 
   // Campus model (requires name)
   describe('Campus model', () => {
