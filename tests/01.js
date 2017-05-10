@@ -33,13 +33,16 @@ describe('Tier One', () => {
   // Route for fetching all campuses
   describe('Campus routes', () => {
     describe('GET /campuses', () => {
+      beforeEach(() => Campus.create({
+          name: 'Grace Hopper'
+        })
+      );
+
       it('serves up all Campuses', () => {
         return agent
         .get('/campuses')
         .expect(200)
-        .then(response => {
-          expect(response.body.campuses).to.have.length(4);
-        });
+        .then(response => expect(response.body.campuses).to.have.length(1));
       });
     });
   });

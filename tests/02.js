@@ -36,7 +36,9 @@ describe('Tier Two', () => {
       });
 
       it('should have a phase property of either "junior" or "senior"', () => {
+        student.name = "Mariya Bogorodova"
         student.phase = "super";
+
         return student.save()
         .then(result => {
           throw new Error ('Promise should have rejected.');
