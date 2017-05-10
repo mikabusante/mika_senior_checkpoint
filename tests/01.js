@@ -17,25 +17,29 @@ describe('Tier One', () => {
 
   // Campus model (requires name)
   describe('Campus model', () => {
-    it('requires name', () => {
-      const campus = Campus.build();
+    describe('Validations', () => {
+      it('requires name', () => {
+        const campus = Campus.build();
 
-      return campus.validate()
-      .then(result => {
-        expect(result).to.be.an('object');
-        expect(result.errors).to.contain.a.thing.with.property('path', 'name');
+        return campus.validate()
+        .then(result => {
+          expect(result).to.be.an('object');
+          expect(result.errors).to.contain.a.thing.with.property('path', 'name');
+        });
       });
     });
   });
 
   // Route for fetching all campuses
-  describe('Campus route', () => {
-    it('serves up all Campuses', () => {
-      return agent
-      .get('/campuses')
-      .expect(200)
-      .then(response => {
-        expect(response.body.campuses).to.have.length(4);
+  describe('Campus routes', () => {
+    describe('GET /campuses', () => {
+      it('serves up all Campuses', () => {
+        return agent
+        .get('/campuses')
+        .expect(200)
+        .then(response => {
+          expect(response.body.campuses).to.have.length(4);
+        });
       });
     });
   });
