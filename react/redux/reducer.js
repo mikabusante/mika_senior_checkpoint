@@ -1,7 +1,9 @@
-import { MESSAGES_RECEIVED, MESSAGES_LOADING, NEW_MESSAGE } from './constants';
+import { CAMPUSES_RECEIVED } from './constants';
 
-const initialState = {};
+const initialState = {
+  campuses: []
+};
 
 export default (state = initialState, action) => {
-    return state;
+  return state;
 };

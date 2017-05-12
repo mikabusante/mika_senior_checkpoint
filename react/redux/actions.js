@@ -1,7 +1,4 @@
-import { MESSAGES_RECEIVED, MESSAGES_LOADING, NEW_MESSAGE } from './constants';
+import { CAMPUSES_RECEIVED } from './constants';
 
-export const createMessagesReceivedAction = () => {};
-
-export const createLoadingAction = () => {};
-
-export const createNewMessageAction = () => {};
+export function setCampuses (campuses) {
+}
