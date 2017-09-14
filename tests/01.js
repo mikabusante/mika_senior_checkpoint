@@ -7,11 +7,11 @@ const expect = chai.expect;
 const chaiThings = require('chai-things');
 chai.use(chaiThings);
 
-const app = require('../server/app')
+const app = require('../server/app');
 const agent = require('supertest')(app);
 
 describe('Tier One', () => {
-  beforeEach(() => db.sync({ force: true }));
+  before(() => db.sync({ force: true }));
 
   after(() => db.sync({ force: true }));
 
@@ -22,27 +22,56 @@ describe('Tier One', () => {
         const campus = Campus.build();
 
         return campus.validate()
-        .then(result => {
-          expect(result).to.be.an('object');
-          expect(result.errors).to.contain.a.thing.with.property('path', 'name');
+        .then(() => {
+          throw Error('validation was successful but should have failed without `name`');
+        }, err => {
+          expect(err.message).to.contain('name cannot be null');
         });
       });
     });
   });
 
-  // Route for fetching all campuses
   describe('Campus routes', () => {
-    describe('GET /campuses', () => {
-      beforeEach(() => Campus.create({
-          name: 'Grace Hopper'
-        })
-      );
+    let storedCampuses;
 
+    const campusData = [
+      {
+        name: 'Grace Hopper'
+      },
+      {
+        name: 'Fullstack Academy'
+      }
+    ];
+
+    before(() =>
+      Campus.bulkCreate(campusData)
+      .then(createdCampuses => {
+        storedCampuses = createdCampuses.map(campus => campus.dataValues);
+      })
+    );
+
+    // Route for fetching all campuses
+    describe('GET /campuses', () => {
       it('serves up all Campuses', () => {
         return agent
         .get('/campuses')
         .expect(200)
-        .then(response => expect(response.body.campuses).to.have.length(1));
+        .then(response => {
+          expect(response.body).to.have.length(2);
+          expect(response.body[0].name).to.equal(storedCampuses[0].name);
+        });
+      });
+    });
+
+    // Route for fetching a single campus
+    describe('GET /campuses/:id', () => {
+      it('serves up a single Campus by its id', () => {
+        return agent
+        .get('/campuses/1')
+        .expect(200)
+        .then(response => {
+          expect(response.body.name).to.equal('Grace Hopper');
+        });
       });
     });
   });
