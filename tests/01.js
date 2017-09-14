@@ -22,9 +22,10 @@ describe('Tier One', () => {
         const campus = Campus.build();
 
         return campus.validate()
-        .then(validationFailed => {
-          expect(validationFailed).not.to.equal(null);
-          expect(validationFailed.errors).to.contain.a.thing.with.property('path', 'name');
+        .then(() => {
+          throw Error('validation was successful but should have failed without `name`');
+        }, err => {
+          expect(err.message).to.contain('name cannot be null');
         });
       });
     });
