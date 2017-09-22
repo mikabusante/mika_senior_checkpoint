@@ -13,25 +13,26 @@ const app = require('../server/app');
 const agent = require('supertest')(app);
 
 describe('Tier Two', () => {
-  beforeEach(() => db.sync({ force: true }));
+  before(() => db.sync({ force: true }));
 
   after(() => db.sync({ force: true }));
 
-  // Student model (name, ENUM for phase)
+  // Student model
   describe('Student model', () => {
     describe('Validations', () => {
       let student;
 
-      beforeEach(() => {
+      before(() => {
         student = Student.build();
       });
 
 
       it('should require name', () => {
         return student.validate()
-        .then(result => {
-          expect(result).to.be.an('object');
-          expect(result.errors).to.contain.a.thing.with.property('path', 'name');
+        .then(() => {
+          throw new Error('Validation succeeded but should have failed')
+        }, err => {
+          expect(err.message).to.contain('name');
         });
       });
 
@@ -40,7 +41,7 @@ describe('Tier Two', () => {
         student.phase = "super";
 
         return student.save()
-        .then(result => {
+        .then(() => {
           throw new Error ('Promise should have rejected.');
         }, err => {
           expect(err).to.exist;
@@ -52,10 +53,10 @@ describe('Tier Two', () => {
   });
 
   // Associate with Campus model
-  describe('Campus and Student Models', () => {
+  describe('Campus/Student association', () => {
     let student1, student2, campus;
 
-    beforeEach(() => Promise.all([
+    before(() => Promise.all([
         Campus.create({
           id: 1,
           name: 'Grace Hopper'
@@ -78,42 +79,24 @@ describe('Tier Two', () => {
       })
     );
 
-    it('should be associated', () => {
-      // testing Campus.hasMany(Student);
-      return campus.hasStudents([student1, student2])
-      .then(result => {
-        expect(result).to.be.true;
-      })
+    describe('Models', () => {
+      it('should be associated', () => {
+        return campus.hasStudents([student1, student2])
+        .then(result => {
+          expect(result).to.be.true;
+        });
+      });
     });
-  });
 
-  // Route to fetch all students from a campus (classMethod or eager loading? both?)
-  describe('Campus routes', () => {
-    describe('GET /campuses/:id/students', () => {
-      beforeEach(() => Promise.all([
-          Campus.create({
-            id: 1,
-            name: 'Grace Hopper'
-          }),
-          Student.create({
-            name: 'Terry Horowitz',
-            phase: 'junior',
-            campusId: 1
-          }),
-          Student.create({
-            name: 'Yuval Idan',
-            phase: 'senior',
-            campusId: 1
-          })
-        ])
-      );
-
+    // Route to fetch all students from a campus (classMethod or eager loading? both?)
+    describe('GET /campuses/:id/students route', () => {
       it('should get all students associated with a campus', () => {
         return agent.get('/campuses/1/students')
         .expect(200)
         .then(res => {
-          expect(res.body.students).to.have.length(2)
-        })
+          expect(res.body.students).to.have.length(2);
+          expect(res.body.students[1].phase).to.exist;
+        });
       });
     });
   });
