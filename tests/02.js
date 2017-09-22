@@ -29,9 +29,10 @@ describe('Tier Two', () => {
 
       it('should require name', () => {
         return student.validate()
-        .then(validationFailed => {
-          expect(validationFailed).not.to.equal(null);
-          expect(validationFailed.errors).to.contain.a.thing.with.property('path', 'name');
+        .then(() => {
+          throw new Error('Validation succeeded but should have failed')
+        }, err => {
+          expect(err.message).to.contain('name');
         });
       });
 
