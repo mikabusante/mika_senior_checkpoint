@@ -9,9 +9,9 @@
     "postinstall": "npm run db-init"
   },
   "devDependencies": {
-    "babel": "^6.23.0",
     "babel-core": "^6.25.0",
     "babel-loader": "^7.1.1",
+    "babel-preset-env": "^1.6.0",
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-2": "^6.24.1",
     "babel-register": "^6.16.3",
@@ -32,7 +32,6 @@
     "webpack": "^3.0.0"
   },
   "dependencies": {
-    "babel-preset-env": "^1.6.0",
     "body-parser": "^1.17.2",
     "express": "^4.15.3",
     "mocha": "^3.3.0",
