@@ -7,6 +7,8 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
+app.use(express.static(path.resolve(__dirname, '../public')));
+
 const campusesSubRouter = require('./routes/campuses-router');
 
 app.use('/campuses', campusesSubRouter);
