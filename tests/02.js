@@ -1,23 +1,24 @@
 'use strict';
 
+// Assertions
 const chai = require('chai');
 const expect = chai.expect;
 const chaiThings = require('chai-things');
 chai.use(chaiThings);
 
+// Models
 const db = require('../server/models');
 const Campus = db.models.campus;
 const Student = db.models.student;
 
+// Routes
 const app = require('../server/app');
 const agent = require('supertest')(app);
 
 describe('Tier Two', () => {
   before(() => db.sync({ force: true }));
-
   after(() => db.sync({ force: true }));
 
-  // Student model
   describe('Student model', () => {
     describe('Validations', () => {
       let student;
@@ -25,7 +26,6 @@ describe('Tier Two', () => {
       before(() => {
         student = Student.build();
       });
-
 
       it('should require name', () => {
         return student.validate()
@@ -52,7 +52,6 @@ describe('Tier Two', () => {
     });
   });
 
-  // Associate with Campus model
   describe('Campus/Student association', () => {
     let student1, student2, campus;
 
@@ -79,8 +78,8 @@ describe('Tier Two', () => {
       })
     );
 
-    describe('Models', () => {
-      it('should be associated', () => {
+    describe('Campus', () => {
+      it('should have associated students', () => {
         return campus.hasStudents([student1, student2])
         .then(result => {
           expect(result).to.be.true;
@@ -88,14 +87,13 @@ describe('Tier Two', () => {
       });
     });
 
-    // Route to fetch all students from a campus (classMethod or eager loading? both?)
     describe('GET /campuses/:id/students route', () => {
       it('should get all students associated with a campus', () => {
         return agent.get('/campuses/1/students')
         .expect(200)
         .then(res => {
-          expect(res.body.students).to.have.length(2);
-          expect(res.body.students[1].phase).to.exist;
+          expect(res.body).to.have.length(2);
+          expect(res.body[0].campusId).to.equal(1);
         });
       });
     });
