@@ -1,28 +1,34 @@
 'use strict';
 
-const db = require('../server/models');
-const Campus = db.model('campus');
+// Assertions
 const chai = require('chai');
 const expect = chai.expect;
 const chaiThings = require('chai-things');
 chai.use(chaiThings);
-const enzyme = require('enzyme');
-const shallow = enzyme.shallow;
-const React = require('react');
+
+// Campus Model
+const db = require('../server/models');
+const Campus = db.model('campus');
+
+// Campus Routes
+const app = require('../server/app');
+const agent = require('supertest')(app);
+
+// CampusList component
+import { shallow } from 'enzyme';
+import React from 'react';
 import CampusList from '../react/components/CampusList';
+
+// Redux
 import { CAMPUSES_RECEIVED } from '../react/redux/constants';
 import { setCampuses } from '../react/redux/actions';
 import reducer from '../react/redux/reducer';
 
-const app = require('../server/app');
-const agent = require('supertest')(app);
-
 describe('Tier One', () => {
   before(() => db.sync({ force: true }));
-
   after(() => db.sync({ force: true }));
 
-  // Campus model (requires name)
+  // defined in ../server/models/campus-model.js
   describe('Campus model', () => {
     describe('Validations', () => {
       it('requires name', () => {
@@ -38,6 +44,7 @@ describe('Tier One', () => {
     });
   });
 
+  // defined in ../server/routes/campuses-router.js
   describe('Campus routes', () => {
     let storedCampuses;
 
@@ -91,7 +98,7 @@ describe('Tier One', () => {
       { name: 'Pluto' }
     ];
 
-    // Component CampusList (componentDidMount)
+    // defined in ../react/components/CampusList.js
     describe('<CampusList /> component', () => {
       it('renders an unordered list', () => {
         const wrapper = shallow(<CampusList />);
@@ -108,6 +115,7 @@ describe('Tier One', () => {
     });
 
     // Synchronous action creator to be used within thunk that AJAXs for all campuses
+    // defined in ../react/redux/actions.js
     describe('`setCampuses` action creator', () => {
       const setCampusesAction = setCampuses(campuses);
 
@@ -124,6 +132,7 @@ describe('Tier One', () => {
 
     });
 
+    // defined in ../react/redux/reducer.js
     describe('reducer', () => {
       const initialState = {
         campuses: []
