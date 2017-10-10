@@ -15,6 +15,12 @@ const Student = db.models.student;
 const app = require('../server/app');
 const agent = require('supertest')(app);
 
+// Components
+import React from 'react';
+import { shallow } from 'enzyme';
+import SingleCampus from '../client/components/SingleCampus'
+import SingleStudent from '../client/components/SingleStudent'
+
 describe('Tier Two', () => {
   before(() => db.sync({ force: true }));
   after(() => db.sync({ force: true }));
@@ -99,8 +105,64 @@ describe('Tier Two', () => {
     });
   });
 
-  // CampusView component
-  describe('', () => {});
+  // defined in ../client/components/SingleCampus.js
+  describe('<SingleCampus /> component', () => {
+    const marsCampus = {
+      name: 'Mars',
+      students: [
+        {
+          name: 'Amy Wong',
+          phase: 'senior'
+        },
+        {
+          name: 'Mark Watney',
+          phase: 'junior'
+        },
+        {
+          name: 'Marvin',
+          phase: 'junior'
+        },
+        {
+          name: 'Valentine Michael Smith',
+          phase: 'senior'
+        }
+      ]
+    };
+
+    const renderedMarsCampus = shallow(
+      <SingleCampus
+        campus={marsCampus}
+        students={marsCampus.students}
+      />
+    );
+
+    marsCampus.name = 'Red Planet'; // change campus name to test dynamic rendering
+    // remove first item to render different list of students
+    const firstStudent = marsCampus.students.shift();
+    const renderedRedPlanetCampus = shallow(
+      <SingleCampus
+        campus={marsCampus}
+        students={marsCampus.students}
+      />
+    );
+    marsCampus.name = 'Mars'; // reset campus name
+    marsCampus.students.unshift(firstStudent); // put first student back
+
+    it('should render the name of the campus in an h2', () => {
+      expect(renderedMarsCampus.find('h2').text()).to.equal('Mars');
+      expect(renderedRedPlanetCampus.find('h2').text()).to.equal('Red Planet');
+    });
+
+    it('should render a list of <Student /> components', () => {
+      const renderedMarsStudents = renderedMarsCampus.find(SingleStudent);
+      expect(renderedMarsStudents.length).to.equal(4);
+      expect(renderedMarsStudents.get(2).props.student.name).to.equal('Marvin');
+
+      const renderedRedPlanetStudents = renderedRedPlanetCampus.find(SingleStudent);
+      expect(renderedRedPlanetStudents.length).to.equal(3);
+      expect(renderedRedPlanetStudents.get(2).props.student.name).to.equal('Valentine Michael Smith');
+    });
+  });
 
   // Write Redux thunk action for selected Campus and students
   describe('', () => {});
