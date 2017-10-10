@@ -17,12 +17,12 @@ const agent = require('supertest')(app);
 // CampusList component
 import { shallow } from 'enzyme';
 import React from 'react';
-import CampusList from '../react/components/CampusList';
+import CampusList from '../client/components/CampusList';
 
 // Redux
-import { CAMPUSES_RECEIVED } from '../react/redux/constants';
-import { setCampuses } from '../react/redux/actions';
-import reducer from '../react/redux/reducer';
+import { CAMPUSES_RECEIVED } from '../client/redux/constants';
+import { setCampuses } from '../client/redux/actions';
+import reducer from '../client/redux/reducer';
 
 describe('Tier One', () => {
   before(() => db.sync({ force: true }));
@@ -98,7 +98,7 @@ describe('Tier One', () => {
       { name: 'Pluto' }
     ];
 
-    // defined in ../react/components/CampusList.js
+    // defined in ../client/components/CampusList.js
     describe('<CampusList /> component', () => {
       it('renders an unordered list', () => {
         const wrapper = shallow(<CampusList />);
@@ -115,7 +115,7 @@ describe('Tier One', () => {
     });
 
     // Synchronous action creator to be used within thunk that AJAXs for all campuses
-    // defined in ../react/redux/actions.js
+    // defined in ../client/redux/actions.js
     describe('`setCampuses` action creator', () => {
       const setCampusesAction = setCampuses(campuses);
 
@@ -132,7 +132,7 @@ describe('Tier One', () => {
 
     });
 
-    // defined in ../react/redux/reducer.js
+    // defined in ../client/redux/reducer.js
     describe('reducer', () => {
       const initialState = {
         campuses: []
