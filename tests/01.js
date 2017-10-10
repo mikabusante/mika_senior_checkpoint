@@ -101,7 +101,7 @@ describe('Tier One', () => {
     // defined in ../client/components/CampusList.js
     describe('<CampusList /> component', () => {
       it('renders an unordered list', () => {
-        const wrapper = shallow(<CampusList />);
+        const wrapper = shallow(<CampusList campuses={[]}/>);
         expect(wrapper.find('ul')).to.have.length(1);
       })
 
