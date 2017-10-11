@@ -21,10 +21,17 @@ import { shallow } from 'enzyme';
 import SingleCampus from '../client/components/SingleCampus'
 import SingleStudent from '../client/components/SingleStudent'
 
+// Redux
+import axios from 'axios';
+import MockAdapter from 'axios-mock-adapter';
+import { SELECT_CAMPUS } from '../client/redux/constants';
+import { selectCampus } from '../client/redux/actions';
+
 describe('Tier Two', () => {
   before(() => db.sync({ force: true }));
   after(() => db.sync({ force: true }));
 
+  // defined in ../server/models/student-model.js
   describe('Student model', () => {
     describe('Validations', () => {
       let student;
@@ -164,6 +171,17 @@ describe('Tier Two', () => {
     });
   });
 
-  // Write Redux thunk action for selected Campus and students
-  describe('', () => {});
+  describe('Redux', () => {
+    describe('managing selected campus', () => {
+      const marsCampus = { name: 'Mars' };
+
+      describe('action creators', () => {
+        it('should allow synchronous creation of SET_CAMPUS actions', () => {
+          const selectCampusAction = selectCampus(marsCampus);
+          expect(selectCampusAction.type).to.equal(SELECT_CAMPUS);
+          expect(selectCampusAction.campus).to.equal(marsCampus);
+        });
+      });
+    });
+  });
 });
