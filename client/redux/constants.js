@@ -1,1 +1,5 @@
 export const CAMPUSES_RECEIVED = 'CAMPUSES_RECEIVED';
+
+export const SELECT_CAMPUS = 'SELECT_CAMPUS';
+
+export const SET_STUDENTS = 'SET_STUDENTS';

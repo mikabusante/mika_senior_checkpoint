@@ -1,7 +1,7 @@
 const path = require('path');
 
 module.exports = {
-  entry: './react/index.js',
+  entry: './client/index.js',
   output: {
     path: __dirname,
     filename: './public/bundle.js'
@@ -12,7 +12,7 @@ module.exports = {
       {
         test: /\.jsx?$/,
         include: [
-          path.resolve(__dirname, 'react')
+          path.resolve(__dirname, 'client')
         ],
         loader: 'babel-loader',
         options: {
