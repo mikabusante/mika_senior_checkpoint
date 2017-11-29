@@ -24,96 +24,107 @@ import SingleStudent from '../client/components/SingleStudent'
 // Redux
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
-import { SELECT_CAMPUS } from '../client/redux/constants';
-import { selectCampus } from '../client/redux/actions';
+const mockAxios = new MockAdapter(axios);
+import configureMockStore from 'redux-mock-store';
+import thunkMiddleware from 'redux-thunk';
+const middlewares = [thunkMiddleware];
+const mockStore = configureMockStore(middlewares);
+const initialState = {
+  campus: {},
+  students: []
+};
+const store = mockStore(initialState);
+import { SELECT_CAMPUS, SET_STUDENTS } from '../client/redux/constants';
+import { fetchStudents, selectCampus, setStudents } from '../client/redux/actions';
 
 describe('Tier Two', () => {
-  before(() => db.sync({ force: true }));
-  after(() => db.sync({ force: true }));
+  describe('Back-end', () => {
+    before(() => db.sync({ force: true }));
+    after(() => db.sync({ force: true }));
 
-  // defined in ../server/models/student-model.js
-  describe('Student model', () => {
-    describe('Validations', () => {
-      let student;
+    // defined in ../server/models/student-model.js
+    describe('Student model', () => {
+      describe('Validations', () => {
+        let student;
 
-      before(() => {
-        student = Student.build();
-      });
-
-      it('should require name', () => {
-        return student.validate()
-        .then(() => {
-          throw new Error('Validation succeeded but should have failed')
-        }, err => {
-          expect(err.message).to.contain('name');
+        before(() => {
+          student = Student.build();
         });
-      });
 
-      it('should have a phase property of either "junior" or "senior"', () => {
-        student.name = "Mariya Bogorodova"
-        student.phase = "super";
-
-        return student.save()
-        .then(() => {
-          throw new Error ('Promise should have rejected.');
-        }, err => {
-          expect(err).to.exist;
-          expect(err.message).to.contain('phase');
+        it('should require name', () => {
+          return student.validate()
+          .then(() => {
+            throw new Error('Validation succeeded but should have failed')
+          }, err => {
+            expect(err.message).to.contain('name');
+          });
         });
-      });
 
+        it('should have a phase property of either "junior" or "senior"', () => {
+          student.name = "Mariya Bogorodova"
+          student.phase = "super";
+
+          return student.save()
+          .then(() => {
+            throw new Error ('Promise should have rejected.');
+          }, err => {
+            expect(err).to.exist;
+            expect(err.message).to.contain('phase');
+          });
+        });
+
+      });
     });
-  });
 
-  describe('Campus/Student association', () => {
-    let student1, student2, campus;
+    describe('Campus/Student association', () => {
+      let student1, student2, campus;
 
-    before(() => Promise.all([
-        Campus.create({
-          id: 1,
-          name: 'Grace Hopper'
-        }),
-        Student.create({
-          name: 'Terry Horowitz',
-          phase: 'junior',
-          campusId: 1
-        }),
-        Student.create({
-          name: 'Yuval Idan',
-          phase: 'senior',
-          campusId: 1
+      before(() => Promise.all([
+          Campus.create({
+            id: 1,
+            name: 'Grace Hopper'
+          }),
+          Student.create({
+            name: 'Terry Horowitz',
+            phase: 'junior',
+            campusId: 1
+          }),
+          Student.create({
+            name: 'Yuval Idan',
+            phase: 'senior',
+            campusId: 1
+          })
+        ])
+        .then(([ _campus, _student1, _student2 ]) => {
+          campus = _campus;
+          student1 = _student1;
+          student2 = _student2;
         })
-      ])
-      .then(([ _campus, _student1, _student2 ]) => {
-        campus = _campus;
-        student1 = _student1;
-        student2 = _student2;
-      })
-    );
+      );
 
-    describe('Campus', () => {
-      it('should have associated students', () => {
-        return campus.hasStudents([student1, student2])
-        .then(result => {
-          expect(result).to.be.true;
+      describe('Campus', () => {
+        it('should have associated students', () => {
+          return campus.hasStudents([student1, student2])
+          .then(result => {
+            expect(result).to.be.true;
+          });
         });
       });
-    });
 
-    describe('GET /campuses/:id/students route', () => {
-      it('should get all students associated with a campus', () => {
-        return agent.get('/campuses/1/students')
-        .expect(200)
-        .then(res => {
-          expect(res.body).to.have.length(2);
-          expect(res.body[0].campusId).to.equal(1);
+      describe('GET /campuses/:id/students route', () => {
+        it('should get all students associated with a campus', () => {
+          return agent.get('/campuses/1/students')
+          .expect(200)
+          .then(res => {
+            expect(res.body).to.have.length(2);
+            expect(res.body[0].campusId).to.equal(1);
+          });
         });
       });
     });
   });
 
-  // defined in ../client/components/SingleCampus.js
-  describe('<SingleCampus /> component', () => {
+  describe('Front-end', () => {
     const marsCampus = {
       name: 'Mars',
       students: [
@@ -136,50 +147,65 @@ describe('Tier Two', () => {
       ]
     };
 
-    const renderedMarsCampus = shallow(
-      <SingleCampus
-        campus={marsCampus}
-        students={marsCampus.students}
-      />
-    );
+    // defined in ../client/components/SingleCampus.js
+    describe('<SingleCampus /> component', () => {
+      const renderedMarsCampus = shallow(
+        <SingleCampus
+          campus={marsCampus}
+          students={marsCampus.students}
+        />
+      );
 
-    marsCampus.name = 'Red Planet'; // change campus name to test dynamic rendering
-    // remove first item to render different list of students
-    const firstStudent = marsCampus.students.shift();
-    const renderedRedPlanetCampus = shallow(
-      <SingleCampus
-        campus={marsCampus}
-        students={marsCampus.students}
-      />
-    );
-    marsCampus.name = 'Mars'; // reset campus name
-    marsCampus.students.unshift(firstStudent); // put first student back
+      marsCampus.name = 'Red Planet'; // change campus name to test dynamic rendering
+      // remove first item to render different list of students
+      const firstStudent = marsCampus.students.shift();
+      const renderedRedPlanetCampus = shallow(
+        <SingleCampus
+          campus={marsCampus}
+          students={marsCampus.students}
+        />
+      );
+      marsCampus.name = 'Mars'; // reset campus name
+      marsCampus.students.unshift(firstStudent); // put first student back
 
-    it('should render the name of the campus in an h2', () => {
-      expect(renderedMarsCampus.find('h2').text()).to.equal('Mars');
-      expect(renderedRedPlanetCampus.find('h2').text()).to.equal('Red Planet');
+      it('should render the name of the campus in an h2', () => {
+        expect(renderedMarsCampus.find('h2').text()).to.equal('Mars');
+        expect(renderedRedPlanetCampus.find('h2').text()).to.equal('Red Planet');
+      });
+
+      it('should render a list of <Student /> components', () => {
+        const renderedMarsStudents = renderedMarsCampus.find(SingleStudent);
+        expect(renderedMarsStudents.length).to.equal(4);
+        expect(renderedMarsStudents.get(2).props.student.name).to.equal('Marvin');
+
+        const renderedRedPlanetStudents = renderedRedPlanetCampus.find(SingleStudent);
+        expect(renderedRedPlanetStudents.length).to.equal(3);
+        expect(renderedRedPlanetStudents.get(2).props.student.name).to.equal('Valentine Michael Smith');
+      });
     });
 
-    it('should render a list of <Student /> components', () => {
-      const renderedMarsStudents = renderedMarsCampus.find(SingleStudent);
-      expect(renderedMarsStudents.length).to.equal(4);
-      expect(renderedMarsStudents.get(2).props.student.name).to.equal('Marvin');
-
-      const renderedRedPlanetStudents = renderedRedPlanetCampus.find(SingleStudent);
-      expect(renderedRedPlanetStudents.length).to.equal(3);
-      expect(renderedRedPlanetStudents.get(2).props.student.name).to.equal('Valentine Michael Smith');
-    });
-  });
-
-  describe('Redux', () => {
-    describe('managing selected campus', () => {
-      const marsCampus = { name: 'Mars' };
-
+    describe('Redux', () => {
       describe('action creators', () => {
-        it('should allow synchronous creation of SET_CAMPUS actions', () => {
+        it('should allow synchronous creation of SELECT_CAMPUS actions', () => {
           const selectCampusAction = selectCampus(marsCampus);
           expect(selectCampusAction.type).to.equal(SELECT_CAMPUS);
           expect(selectCampusAction.campus).to.equal(marsCampus);
+        });
+
+        it('should allow synchronous creation of SET_STUDENTS actions', () => {
+          const setStudentsAction = setStudents(marsCampus.students);
+          expect(setStudentsAction.type).to.equal(SET_STUDENTS);
+          expect(setStudentsAction.students).to.equal(marsCampus.students);
+        });
+
+        it('should use a thunk to fetch students from the backend and dispatch a SET_STUDENTS action', () => {
+          mockAxios.onGet('/api/students').replyOnce(200, marsCampus.students);
+          return store.dispatch(fetchStudents())
+          .then(() => {
+            const actions = store.getActions();
+            expect(actions[0].type).to.equal('SET_STUDENTS');
+            expect(actions[0].students).to.deep.equal(marsCampus.students);
+          })
         });
       });
     });
