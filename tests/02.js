@@ -30,10 +30,12 @@ import thunkMiddleware from 'redux-thunk';
 const middlewares = [thunkMiddleware];
 const mockStore = configureMockStore(middlewares);
 const initialState = {
-  campus: {},
+  campuses: [],
+  selectedCampus: {},
   students: []
 };
 const store = mockStore(initialState);
+import reducer from '../client/redux/reducer';
 import { SELECT_CAMPUS, SET_STUDENTS } from '../client/redux/constants';
 import { fetchStudents, selectCampus, setStudents } from '../client/redux/actions';
 
@@ -206,6 +208,32 @@ describe('Tier Two', () => {
             expect(actions[0].type).to.equal('SET_STUDENTS');
             expect(actions[0].students).to.deep.equal(marsCampus.students);
           })
+        });
+      });
+
+      describe('reducer', () => {
+        it('returns a new state with selected campus', () => {
+          const newState = reducer(
+            initialState,
+            {
+              type: SELECT_CAMPUS,
+              campus: marsCampus
+            }
+          );
+          expect(newState.selectedCampus).to.equal(marsCampus);
+          expect(initialState.selectedCampus).to.deep.equal({});
+        });
+
+        it('returns a new state with fetched students', () => {
+          const newState = reducer(
+            initialState,
+            {
+              type: SET_STUDENTS,
+              students: marsCampus.students
+            }
+          );
+          expect(newState.students).to.equal(marsCampus.students);
+          expect(initialState.students).to.deep.equal([]);
         });
       });
     });
