@@ -1,7 +1,9 @@
-import { CAMPUSES_RECEIVED } from './constants';
+import { CAMPUSES_RECEIVED, SELECT_CAMPUS, SET_STUDENTS } from './constants';
 
 const initialState = {
-  campuses: []
+  campuses: [],
+  selectedCampus: {},
+  students: []
 };
 
 export default (state = initialState, action) => {
