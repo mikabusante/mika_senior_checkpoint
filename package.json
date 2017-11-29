@@ -4,7 +4,7 @@
   "author": "Fullstack Instructors",
   "scripts": {
     "test": "mocha ./tests --recursive --watch --compilers js:babel-register",
-    "start": "webpack -w & nodemon server",
+    "start": "webpack -w & nodemon server --watch server",
     "db-init": "pg-init checkpoint_senior_tiers",
     "postinstall": "npm run db-init"
   },
