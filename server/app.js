@@ -11,7 +11,7 @@ app.use(express.static(path.resolve(__dirname, '../public')));
 
 const campusesSubRouter = require('./routes/campuses-router');
 
-app.use('/campuses', campusesSubRouter);
+app.use('/api/campuses', campusesSubRouter);
 
 app.get('/', function (req, res, next) {
     res.sendFile(path.join(__dirname, './index.html'));

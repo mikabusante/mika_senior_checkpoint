@@ -44,7 +44,7 @@ describe('Tier Two', () => {
     before(() => db.sync({ force: true }));
     after(() => db.sync({ force: true }));
 
-    // defined in ../server/models/student-model.js
+    // defined in ../server/models/Student.js
     describe('Student model', () => {
       describe('Validations', () => {
         let student;
@@ -63,7 +63,7 @@ describe('Tier Two', () => {
         });
 
         it('should have a phase property of either "junior" or "senior"', () => {
-          student.name = "Mariya Bogorodova"
+          student.name = "Mariya Dova"
           student.phase = "super";
 
           return student.save()
@@ -77,7 +77,7 @@ describe('Tier Two', () => {
 
       });
     });
-
+    // defined in ../server/models/index.js
     describe('Campus/Student association', () => {
       let student1, student2, campus;
 
@@ -87,12 +87,12 @@ describe('Tier Two', () => {
             name: 'Grace Hopper'
           }),
           Student.create({
-            name: 'Terry Horowitz',
+            name: 'Terry Witz',
             phase: 'junior',
             campusId: 1
           }),
           Student.create({
-            name: 'Yuval Idan',
+            name: 'Yuval Ivana',
             phase: 'senior',
             campusId: 1
           })
@@ -131,15 +131,15 @@ describe('Tier Two', () => {
       name: 'Mars',
       students: [
         {
-          name: 'Amy Wong',
+          name: 'Amy Wagner',
           phase: 'senior'
         },
         {
-          name: 'Mark Watney',
+          name: 'John Watney',
           phase: 'junior'
         },
         {
-          name: 'Marvin',
+          name: 'Marvin Lee',
           phase: 'junior'
         },
         {
@@ -158,7 +158,8 @@ describe('Tier Two', () => {
         />
       );
 
-      marsCampus.name = 'Red Planet'; // change campus name to test dynamic rendering
+      // change campus name to test dynamic rendering
+      marsCampus.name = 'Red Planet';
       // remove first item to render different list of students
       const firstStudent = marsCampus.students.shift();
       const renderedRedPlanetCampus = shallow(
@@ -167,8 +168,11 @@ describe('Tier Two', () => {
           students={marsCampus.students}
         />
       );
-      marsCampus.name = 'Mars'; // reset campus name
-      marsCampus.students.unshift(firstStudent); // put first student back
+
+      // reset campus name
+      marsCampus.name = 'Mars';
+      // put first student back
+      marsCampus.students.unshift(firstStudent);
 
       it('should render the name of the campus in an h2', () => {
         expect(renderedMarsCampus.find('h2').text()).to.equal('Mars');
@@ -188,6 +192,8 @@ describe('Tier Two', () => {
 
     describe('Redux', () => {
       describe('action creators', () => {
+        // defined in ../client/redux/actions.js
+
         it('should allow synchronous creation of SELECT_CAMPUS actions', () => {
           const selectCampusAction = selectCampus(marsCampus);
           expect(selectCampusAction.type).to.equal(SELECT_CAMPUS);
@@ -200,7 +206,7 @@ describe('Tier Two', () => {
           expect(setStudentsAction.students).to.equal(marsCampus.students);
         });
 
-        it('should use a thunk to fetch students from the backend and dispatch a SET_STUDENTS action', () => {
+        it('fetchStudents() returns a thunk to fetch students from the backend and dispatch a SET_STUDENTS action', () => {
           mockAxios.onGet('/api/students').replyOnce(200, marsCampus.students);
           return store.dispatch(fetchStudents())
           .then(() => {
@@ -212,6 +218,8 @@ describe('Tier Two', () => {
       });
 
       describe('reducer', () => {
+        // defined in ../client/redux/reducer.js
+
         it('returns a new state with selected campus', () => {
           const newState = reducer(
             initialState,
