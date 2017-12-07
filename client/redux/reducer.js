@@ -7,5 +7,7 @@ const initialState = {
 };
 
 export default (state = initialState, action) => {
+  //your code here
+
   return state;
 };
