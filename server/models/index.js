@@ -2,7 +2,9 @@
 
 const db = require('./_db');
 
-const Campus = require('./campus-model');
-const Student = require('./student-model');
+const Campus = require('./Campus');
+const Student = require('./Student');
+
+Campus.hasMany(Student)
 
 module.exports = db;

@@ -24,7 +24,6 @@ import SingleStudent from '../client/components/SingleStudent'
 // Redux
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
-const mockAxios = new MockAdapter(axios);
 import configureMockStore from 'redux-mock-store';
 import thunkMiddleware from 'redux-thunk';
 const middlewares = [thunkMiddleware];
@@ -37,7 +36,7 @@ const initialState = {
 const store = mockStore(initialState);
 import reducer from '../client/redux/reducer';
 import { SELECT_CAMPUS, SET_STUDENTS } from '../client/redux/constants';
-import { fetchStudents, selectCampus, setStudents } from '../client/redux/actions';
+import { fetchCampuses, selectCampus, setStudents } from '../client/redux/actions';
 
 describe('Tier Two', () => {
   describe('Back-end', () => {
@@ -77,8 +76,9 @@ describe('Tier Two', () => {
 
       });
     });
-    // defined in ../server/models/index.js
+
     describe('Campus/Student association', () => {
+      // defined in ../server/models/index.js
       let student1, student2, campus;
 
       before(() => Promise.all([
@@ -115,7 +115,7 @@ describe('Tier Two', () => {
 
       describe('GET /campuses/:id/students route', () => {
         it('should get all students associated with a campus', () => {
-          return agent.get('/campuses/1/students')
+          return agent.get('/api/campuses/1/students')
           .expect(200)
           .then(res => {
             expect(res.body).to.have.length(2);
@@ -179,10 +179,10 @@ describe('Tier Two', () => {
         expect(renderedRedPlanetCampus.find('h2').text()).to.equal('Red Planet');
       });
 
-      it('should render a list of <Student /> components', () => {
+      it('should render a list of <SingleStudent /> components', () => {
         const renderedMarsStudents = renderedMarsCampus.find(SingleStudent);
         expect(renderedMarsStudents.length).to.equal(4);
-        expect(renderedMarsStudents.get(2).props.student.name).to.equal('Marvin');
+        expect(renderedMarsStudents.get(2).props.student.name).to.equal('Marvin Lee');
 
         const renderedRedPlanetStudents = renderedRedPlanetCampus.find(SingleStudent);
         expect(renderedRedPlanetStudents.length).to.equal(3);
@@ -194,25 +194,39 @@ describe('Tier Two', () => {
       describe('action creators', () => {
         // defined in ../client/redux/actions.js
 
+        const campuses = [
+          { name: 'New York' },
+          { name: 'Chicago' },
+          { name: 'Pluto' }
+        ];
+
+        let mock;
+        before(() => {
+          mock = new MockAdapter(axios)
+        })
+
+        afterEach(() => {
+          mock.reset();
+        })
+
+        after(() => {
+          mock.restore();
+        })
+
         it('should allow synchronous creation of SELECT_CAMPUS actions', () => {
           const selectCampusAction = selectCampus(marsCampus);
           expect(selectCampusAction.type).to.equal(SELECT_CAMPUS);
           expect(selectCampusAction.campus).to.equal(marsCampus);
         });
 
-        it('should allow synchronous creation of SET_STUDENTS actions', () => {
-          const setStudentsAction = setStudents(marsCampus.students);
-          expect(setStudentsAction.type).to.equal(SET_STUDENTS);
-          expect(setStudentsAction.students).to.equal(marsCampus.students);
-        });
 
-        it('fetchStudents() returns a thunk to fetch students from the backend and dispatch a SET_STUDENTS action', () => {
-          mockAxios.onGet('/api/students').replyOnce(200, marsCampus.students);
-          return store.dispatch(fetchStudents())
+        it('fetchCampuses() returns a thunk to fetch campuses from the backend and dispatch a SET_CAMPUSES action', () => {
+          mock.onGet('/api/campuses').replyOnce(200, campuses);
+          return store.dispatch(fetchCampuses())
           .then(() => {
             const actions = store.getActions();
-            expect(actions[0].type).to.equal('SET_STUDENTS');
-            expect(actions[0].students).to.deep.equal(marsCampus.students);
+            expect(actions[0].type).to.equal('SET_CAMPUSES');
+            expect(actions[0].campuses).to.deep.equal(campuses);
           })
         });
       });
@@ -230,18 +244,6 @@ describe('Tier Two', () => {
           );
           expect(newState.selectedCampus).to.equal(marsCampus);
           expect(initialState.selectedCampus).to.deep.equal({});
-        });
-
-        it('returns a new state with fetched students', () => {
-          const newState = reducer(
-            initialState,
-            {
-              type: SET_STUDENTS,
-              students: marsCampus.students
-            }
-          );
-          expect(newState.students).to.equal(marsCampus.students);
-          expect(initialState.students).to.deep.equal([]);
         });
       });
     });

@@ -6,6 +6,8 @@
     "test": "mocha ./tests --recursive --watch --compilers js:babel-register",
     "tier-1": "mocha ./tests/tier-01 --recursive --watch --compilers js:babel-register",
     "tier-2": "mocha ./tests/tier-02 --recursive --watch --compilers js:babel-register",
+    "tier-3": "mocha ./tests/tier-03 --recursive --watch --compilers js:babel-register",
+    "test-flatline": "mocha ./tests/flatline --recursive --watch --compilers js:babel-register",
     "start": "webpack -w & nodemon server --watch server",
     "db-init": "pg-init checkpoint_senior_tiers",
     "postinstall": "npm run db-init"
@@ -39,6 +41,7 @@
   "dependencies": {
     "axios": "^0.16.2",
     "body-parser": "^1.17.2",
+    "chai-spies": "^0.7.1",
     "express": "^4.15.3",
     "pg": "^5.1.0",
     "react": "^15.6.1",

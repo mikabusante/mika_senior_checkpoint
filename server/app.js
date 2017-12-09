@@ -9,7 +9,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use(express.static(path.resolve(__dirname, '../public')));
 
-const campusesSubRouter = require('./routes/campuses-router');
+const campusesSubRouter = require('./routes/campuses');
 
 app.use('/api/campuses', campusesSubRouter);
 
