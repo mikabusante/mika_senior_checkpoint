@@ -120,10 +120,14 @@ describe('Tier One', () => {
 
       xit('renders list items for the campuses passed in as props', () => {
 
-        const wrapper = shallow(<CampusList campuses={campuses} />);
-        const listItems = wrapper.find('li');
-        expect(listItems).to.have.length(3);
-        expect(listItems.at(2).text()).to.contain('Pluto');
+        Campus.bulkCreate(campuses)
+        .then(() => {
+          //we are creating the campuses in the database so the extra credit in tier-4 doesn't break this spec.
+          const wrapper = shallow(<CampusList campuses={campuses} />);
+          const listItems = wrapper.find('li');
+          expect(listItems).to.have.length(3);
+          expect(listItems.at(2).text()).to.contain('Pluto');
+        })
       });
     });
 
