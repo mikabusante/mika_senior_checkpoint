@@ -6,11 +6,15 @@ Except for existing *codebases* (from workshops / checkpoints / projects you've 
 
 Please make sure you complete specs located in the following files:
 
-`tests/01.js`
+`tests/tier-01.js`
 
-`tests/02.js`
+`tests/tier-02.js`
 
-#### You MUST complete 01 and 02 tests in this order, and they MAY depend on eachother.  This checkpoint is organized in tiers. Each tier will require you to work across the stack, setting up the necessary functionality for the tests in the next tier. The tiers will increase in difficulty as you progress.
+`tests/tier-03.js`
+
+If you complete and pass all the specs in these three files, you may attempt the extra-credit in `tests/tier-04-extra-credit.md`
+
+#### You MUST complete 01, 02, and 03 tests in this order, and they MAY depend on eachother.  This checkpoint is organized in tiers. Each tier will require you to work across the stack, setting up the necessary functionality for the tests in the next tier. The tiers will increase in difficulty as you progress.
 
 ## Getting started
 
@@ -23,8 +27,9 @@ npm install
 To run all the tests, run `npm test`. To run only _specific_ test suites, you can optionally run the following:
 
 ```bash
-npm run test-tier-1
-npm run test-tier-2
+npm run tier-1
+npm run tier-2
+npm run tier-3
 ```
 
 To only run a specific `describe` or `it`, you can also chain `.only`:
