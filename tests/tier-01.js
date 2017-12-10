@@ -31,7 +31,7 @@ describe('Tier One', () => {
   // defined in ../server/models/Campus.js
   describe('Campus model', () => {
     describe('Validations', () => {
-      it('requires name', () => {
+      xit('requires name', () => {
         const campus = Campus.build();
 
         return campus.validate()
@@ -42,7 +42,7 @@ describe('Tier One', () => {
         });
       });
 
-      it('requires name to not be an empty string', () => {
+      xit('requires name to not be an empty string', () => {
         const campus = Campus.build({
           name: ''
         });
@@ -79,7 +79,7 @@ describe('Tier One', () => {
 
     // Route for fetching all campuses
     describe('GET /api/campuses', () => {
-      it('serves up all Campuses', () => {
+      xit('serves up all Campuses', () => {
         return agent
         .get('/api/campuses')
         .expect(200)
@@ -92,7 +92,7 @@ describe('Tier One', () => {
 
     // Route for fetching a single campus
     describe('GET /api/campuses/:id', () => {
-      it('serves up a single Campus by its id', () => {
+      xit('serves up a single Campus by its id', () => {
         return agent
         .get('/api/campuses/1')
         .expect(200)
@@ -113,12 +113,12 @@ describe('Tier One', () => {
 
     // defined in ../client/components/CampusList.js
     describe('<CampusList /> component', () => {
-      it('renders an unordered list', () => {
+      xit('renders an unordered list', () => {
         const wrapper = shallow(<CampusList campuses={[]} />);
         expect(wrapper.find('ul')).to.have.length(1);
       })
 
-      it('renders list items for the campuses passed in as props', () => {
+      xit('renders list items for the campuses passed in as props', () => {
 
         const wrapper = shallow(<CampusList campuses={campuses} />);
         const listItems = wrapper.find('li');
@@ -131,12 +131,12 @@ describe('Tier One', () => {
     describe('`setCampuses` action creator', () => {
       const setCampusesAction = setCampuses(campuses);
 
-      it('returns a Plain Old JavaScript Object', () => {
+      xit('returns a Plain Old JavaScript Object', () => {
         expect(typeof setCampusesAction).to.equal('object');
         expect(Object.getPrototypeOf(setCampusesAction)).to.equal(Object.prototype);
       });
 
-      it('creates an object with `type` and `campuses`', () => {
+      xit('creates an object with `type` and `campuses`', () => {
         expect(setCampusesAction.type).to.equal(SET_CAMPUSES);
         expect(Array.isArray(setCampusesAction.campuses)).to.be.true;
         expect(setCampusesAction.campuses[2].name).to.equal('Pluto');
@@ -158,11 +158,11 @@ describe('Tier One', () => {
         }
       )
 
-      it('returns a new state with the updated campuses', () => {
+      xit('returns a new state with the updated campuses', () => {
         expect(newState.campuses).to.equal(campuses);
       });
 
-      it('does not modify the previous state', () => {
+      xit('does not modify the previous state', () => {
         expect(initialState).to.deep.equal({
           campuses: []
         });

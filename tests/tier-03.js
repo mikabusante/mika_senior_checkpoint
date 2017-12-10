@@ -62,7 +62,7 @@ describe('Tier Three', () => {
       describe('Class method - findByPhase', () => {
         // defined in ../server/models/Student.js
 
-        it('should find all students belonging to a certain phase', () => {
+        xit('should find all students belonging to a certain phase', () => {
           return Student.findByPhase('junior')
             .then(students => {
               expect(students.length).to.be.equal(1);
@@ -77,7 +77,7 @@ describe('Tier Three', () => {
       describe('GET /capuses/:id route enhanced', () => {
         // defined in ../server/routes/campuses.js
 
-        it('should populate (eager-load) the student information for the found campus', () => {
+        xit('should populate (eager-load) the student information for the found campus', () => {
           return agent
             .get('/api/campuses/1')
             .expect(200)
@@ -89,7 +89,7 @@ describe('Tier Three', () => {
       })
 
       describe('POST /campuses/ route', () => {
-        it('should create a campus', () => {
+        xit('should create a campus', () => {
           // defined in ../server/routes/campuses.js
 
           return agent.post('/api/campuses')
@@ -111,7 +111,7 @@ describe('Tier Three', () => {
       describe('POST /campuses/:id/students route', () => {
         // defined in ../server/routes/campuses.js
 
-        it('should create a student associated with the campus indicated by the route', () => {
+        xit('should create a student associated with the campus indicated by the route', () => {
           return agent.post('/api/campuses/1/students')
           .send({
             name: 'Karley Remoteson',
@@ -142,17 +142,17 @@ describe('Tier Three', () => {
       })
 
 
-      it('should be a class component with an initial local state', () => {
+      xit('should be a class component with an initial local state', () => {
 
         expect(campusFormInstance).to.exist;
         expect(campusFormInstance.state).to.eql({name: ''});
       })
 
-      it('should render an <input /> element', () => {
+      xit('should render an <input /> element', () => {
         expect(renderedCampusForm.find('input').node).to.exist;
       })
 
-      it('should have a class method called handleChange that is invoked when there is a change event triggered by the <input /> element', () => {
+      xit('should have a class method called handleChange that is invoked when there is a change event triggered by the <input /> element', () => {
         const handleChangeSpy = sinon.spy(CampusForm.prototype, 'handleChange')
         const renderedCampusFormWithSpy = shallow(<CampusForm />);
 
@@ -163,7 +163,7 @@ describe('Tier Three', () => {
         expect(handleChangeSpy.calledOnce).to.equal(true);
       })
 
-      it('handleChange should update the local state', () => {
+      xit('handleChange should update the local state', () => {
         renderedCampusForm.find('input').simulate('change', {
           target: { value: 'Another Campus Name' }
         })
@@ -192,13 +192,13 @@ describe('Tier Three', () => {
           mock.restore();
         })
 
-        it('should allow synchronous creation of ADD_CAMPUS actions', () => {
+        xit('should allow synchronous creation of ADD_CAMPUS actions', () => {
           const addCampusAction = addCampus(starfleetCampus);
           expect(addCampusAction.type).to.equal(ADD_CAMPUS);
           expect(addCampusAction.campus).to.eql(starfleetCampus);
         });
 
-        it('postCampus() returns a thunk to post a new campus to the backend and dispatch an ADD_CAMPUS action', () => {
+        xit('postCampus() returns a thunk to post a new campus to the backend and dispatch an ADD_CAMPUS action', () => {
           mock.onPost('/api/campuses').replyOnce(201, starfleetCampus);
           return store.dispatch(postCampus(starfleetCampus))
           .then(() => {
@@ -213,7 +213,7 @@ describe('Tier Three', () => {
       describe('reducer', () => {
           // defined in ../client/redux/reducer.js
 
-          it('returns a new state with the newly created campus added to the list of campuses', () => {
+          xit('returns a new state with the newly created campus added to the list of campuses', () => {
           const remoteCampus = {id: 1, name: 'Fullstack Remote Campus'}
           const starfleetCampus = {id: 2, name: 'Starfleet Academy'}
           initialState.campuses = [remoteCampus];
