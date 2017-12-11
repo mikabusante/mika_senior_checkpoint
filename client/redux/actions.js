@@ -1,14 +1,22 @@
 import axios from 'axios';
-import { CAMPUSES_RECEIVED, SELECT_CAMPUS, SET_STUDENTS } from './constants';
+import { SET_CAMPUSES, SELECT_CAMPUS, ADD_CAMPUS } from './constants';
 
-export function setCampuses (campuses) {
+export function setCampuses () {
+  //your code here
 }
 
-export function selectCampus (campus) {
+export function selectCampus () {
+  //you code here
 }
 
-export function setStudents (students) {
+export function addCampus () {
+  //your code here
 }
 
-export function fetchStudents () {
+export function fetchCampuses () {
+  //your code here
+}
+
+export function postCampus () {
+  //your code here
 }

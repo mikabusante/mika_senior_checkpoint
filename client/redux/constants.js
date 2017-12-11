@@ -1,5 +1,5 @@
-export const CAMPUSES_RECEIVED = 'CAMPUSES_RECEIVED';
+export const SET_CAMPUSES = 'SET_CAMPUSES';
 
 export const SELECT_CAMPUS = 'SELECT_CAMPUS';
 
-export const SET_STUDENTS = 'SET_STUDENTS';
+export const ADD_CAMPUS = 'ADD_CAMPUS';

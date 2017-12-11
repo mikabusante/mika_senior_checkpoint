@@ -20,7 +20,7 @@ import React from 'react';
 import CampusList from '../client/components/CampusList';
 
 // Redux
-import { CAMPUSES_RECEIVED } from '../client/redux/constants';
+import { SET_CAMPUSES } from '../client/redux/constants';
 import { setCampuses } from '../client/redux/actions';
 import reducer from '../client/redux/reducer';
 
@@ -28,10 +28,10 @@ describe('Tier One', () => {
   before(() => db.sync({ force: true }));
   after(() => db.sync({ force: true }));
 
-  // defined in ../server/models/campus-model.js
+  // defined in ../server/models/Campus.js
   describe('Campus model', () => {
     describe('Validations', () => {
-      it('requires name', () => {
+      xit('requires name', () => {
         const campus = Campus.build();
 
         return campus.validate()
@@ -41,10 +41,23 @@ describe('Tier One', () => {
           expect(err.message).to.contain('name cannot be null');
         });
       });
+
+      xit('requires name to not be an empty string', () => {
+        const campus = Campus.build({
+          name: ''
+        });
+
+        return campus.validate()
+        .then(() => {
+          throw Error('validation was successful but should have failed if name is an empty string');
+        }, err => {
+          expect(err.message).to.contain('Validation error');
+        });
+      });
     });
   });
 
-  // defined in ../server/routes/campuses-router.js
+  // defined in ../server/routes/campuses.js
   describe('Campus routes', () => {
     let storedCampuses;
 
@@ -65,10 +78,10 @@ describe('Tier One', () => {
     );
 
     // Route for fetching all campuses
-    describe('GET /campuses', () => {
-      it('serves up all Campuses', () => {
+    describe('GET /api/campuses', () => {
+      xit('serves up all Campuses', () => {
         return agent
-        .get('/campuses')
+        .get('/api/campuses')
         .expect(200)
         .then(response => {
           expect(response.body).to.have.length(2);
@@ -78,10 +91,10 @@ describe('Tier One', () => {
     });
 
     // Route for fetching a single campus
-    describe('GET /campuses/:id', () => {
-      it('serves up a single Campus by its id', () => {
+    describe('GET /api/campuses/:id', () => {
+      xit('serves up a single Campus by its id', () => {
         return agent
-        .get('/campuses/1')
+        .get('/api/campuses/1')
         .expect(200)
         .then(response => {
           expect(response.body.name).to.equal('Grace Hopper');
@@ -100,32 +113,35 @@ describe('Tier One', () => {
 
     // defined in ../client/components/CampusList.js
     describe('<CampusList /> component', () => {
-      it('renders an unordered list', () => {
-        const wrapper = shallow(<CampusList campuses={[]}/>);
+      xit('renders an unordered list', () => {
+        const wrapper = shallow(<CampusList campuses={[]} />);
         expect(wrapper.find('ul')).to.have.length(1);
       })
 
-      it('renders list items for the campuses passed in as props', () => {
+      xit('renders list items for the campuses passed in as props', () => {
 
-        const wrapper = shallow(<CampusList campuses={campuses} />);
-        const listItems = wrapper.find('li');
-        expect(listItems).to.have.length(3);
-        expect(listItems.at(2).text()).to.contain('Pluto');
+        return Campus.bulkCreate(campuses)
+        .then(() => {
+          //we are creating the campuses in the database so the extra credit in tier-4 doesn't break this spec.
+          const wrapper = shallow(<CampusList campuses={campuses} />);
+          const listItems = wrapper.find('li');
+          expect(listItems).to.have.length(3);
+          expect(listItems.at(2).text()).to.contain('Pluto');
+        })
       });
     });
 
-    // Synchronous action creator to be used within thunk that AJAXs for all campuses
     // defined in ../client/redux/actions.js
     describe('`setCampuses` action creator', () => {
       const setCampusesAction = setCampuses(campuses);
 
-      it('returns a Plain Old JavaScript Object', () => {
+      xit('returns a Plain Old JavaScript Object', () => {
         expect(typeof setCampusesAction).to.equal('object');
         expect(Object.getPrototypeOf(setCampusesAction)).to.equal(Object.prototype);
       });
 
-      it('creates an object with `type` and `campuses`', () => {
-        expect(setCampusesAction.type).to.equal(CAMPUSES_RECEIVED);
+      xit('creates an object with `type` and `campuses`', () => {
+        expect(setCampusesAction.type).to.equal(SET_CAMPUSES);
         expect(Array.isArray(setCampusesAction.campuses)).to.be.true;
         expect(setCampusesAction.campuses[2].name).to.equal('Pluto');
       });
@@ -141,16 +157,16 @@ describe('Tier One', () => {
       const newState = reducer(
         initialState,
         {
-          type: CAMPUSES_RECEIVED,
+          type: SET_CAMPUSES,
           campuses: campuses
         }
       )
 
-      it('returns a new state with the updated campuses', () => {
+      xit('returns a new state with the updated campuses', () => {
         expect(newState.campuses).to.equal(campuses);
       });
 
-      it('does not modify the previous state', () => {
+      xit('does not modify the previous state', () => {
         expect(initialState).to.deep.equal({
           campuses: []
         });
