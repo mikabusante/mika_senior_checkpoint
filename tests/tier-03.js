@@ -74,7 +74,7 @@ describe('Tier Three', () => {
 
     describe('Campus', () => {
 
-      describe('GET /capuses/:id route enhanced', () => {
+      describe('GET /campuses/:id route enhanced', () => {
         // defined in ../server/routes/campuses.js
 
         xit('should populate (eager-load) the student information for the found campus', () => {

@@ -120,7 +120,7 @@ describe('Tier One', () => {
 
       xit('renders list items for the campuses passed in as props', () => {
 
-        Campus.bulkCreate(campuses)
+        return Campus.bulkCreate(campuses)
         .then(() => {
           //we are creating the campuses in the database so the extra credit in tier-4 doesn't break this spec.
           const wrapper = shallow(<CampusList campuses={campuses} />);
