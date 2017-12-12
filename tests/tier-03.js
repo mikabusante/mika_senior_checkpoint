@@ -38,25 +38,28 @@ import { postCampus, addCampus } from '../client/redux/actions';
 
 describe('Tier Three', () => {
   describe('Back-end', () => {
-    before(() => db.sync({ force: true }));
-    after(() => db.sync({ force: true }));
+    before(() =>
+      db.sync({ force: true })
+      .then(() =>
+        Promise.all([
+          Campus.create({
+            id: 1,
+            name: 'Grace Hopper'
+          }),
+          Student.create({
+            name: 'Terry Witz',
+            phase: 'junior',
+            campusId: 1
+          }),
+          Student.create({
+            name: 'Yuval Ivana',
+            phase: 'senior',
+            campusId: 1
+          })
+        ])
+      ));
 
-    before(() => Promise.all([
-      Campus.create({
-        id: 1,
-        name: 'Grace Hopper'
-      }),
-      Student.create({
-        name: 'Terry Witz',
-        phase: 'junior',
-        campusId: 1
-      }),
-      Student.create({
-        name: 'Yuval Ivana',
-        phase: 'senior',
-        campusId: 1
-      })
-    ]));
+    after(() => db.sync({ force: true }));
 
     describe('Student', () => {
       describe('Class method - findByPhase', () => {
