@@ -38,39 +38,34 @@ import { postCampus, addCampus } from '../client/redux/actions';
 
 describe('Tier Three', () => {
   describe('Back-end', () => {
-    before(() =>
-      db.sync({ force: true })
-      .then(() =>
-        Promise.all([
-          Campus.create({
-            id: 1,
-            name: 'Grace Hopper'
-          }),
-          Student.create({
-            name: 'Terry Witz',
-            phase: 'junior',
-            campusId: 1
-          }),
-          Student.create({
-            name: 'Yuval Ivana',
-            phase: 'senior',
-            campusId: 1
-          })
-        ])
-      ));
+    before(async () => {
+      await db.sync({ force: true });
+      await Campus.create({
+        id: 1,
+        name: 'Grace Hopper'
+      });
+      await Student.create({
+        name: 'Terry Witz',
+        phase: 'junior',
+        campusId: 1
+      });
+      await Student.create({
+        name: 'Yuval Ivana',
+        phase: 'senior',
+        campusId: 1
+      });
+    });
 
-    after(() => db.sync({ force: true }));
+    after(async () => await db.sync({ force: true }));
 
     describe('Student', () => {
       describe('Class method - findByPhase', () => {
         // defined in ../server/models/Student.js
 
-        xit('should find all students belonging to a certain phase', () => {
-          return Student.findByPhase('junior')
-            .then(students => {
-              expect(students.length).to.be.equal(1);
-              expect(students[0].name).to.be.equal('Terry Witz');
-            })
+        xit('should find all students belonging to a certain phase', async () => {
+          const students = await Student.findByPhase('junior')
+          expect(students.length).to.be.equal(1);
+          expect(students[0].name).to.be.equal('Terry Witz');
         })
       })
     })
@@ -80,54 +75,40 @@ describe('Tier Three', () => {
       describe('GET /campuses/:id route enhanced', () => {
         // defined in ../server/routes/campuses.js
 
-        xit('should populate (eager-load) the student information for the found campus', () => {
-          return agent
-            .get('/api/campuses/1')
-            .expect(200)
-            .then(response => {
-              expect(response.body.students.length).to.equal(2);
-              expect(response.body.students[0].name).to.exist;
-            });
+        xit('should populate (eager-load) the student information for the found campus', async () => {
+          const response = await agent.get('/api/campuses/1').expect(200);
+          expect(response.body.students.length).to.equal(2);
+          expect(response.body.students[0].name).to.exist;
         })
       })
 
       describe('POST /campuses/ route', () => {
-        xit('should create a campus', () => {
+        xit('should create a campus', async () => {
           // defined in ../server/routes/campuses.js
 
-          return agent.post('/api/campuses')
+          const response = await agent.post('/api/campuses')
             .send({
               id: 2,
               name: 'Fullstack Remote Campus'
             })
-            .expect(201)
-            .then(res => {
-              const createdCampus = res.body;
-              return Campus.findById(createdCampus.id)
-            })
-            .then(createdCampus => {
-              expect(createdCampus.name).to.be.equal('Fullstack Remote Campus')
-            })
+            .expect(201);
+          const createdCampus = await Campus.findById(response.body.id)
+          expect(createdCampus.name).to.be.equal('Fullstack Remote Campus')
         });
       });
 
       describe('POST /campuses/:id/students route', () => {
         // defined in ../server/routes/campuses.js
 
-        xit('should create a student associated with the campus indicated by the route', () => {
-          return agent.post('/api/campuses/1/students')
-          .send({
-            name: 'Karley Remoteson',
-            phase: 'junior'
-          })
-          .expect(201)
-          .then(res => {
-            const createdStudent = res.body;
-            return Student.findById(createdStudent.id)
-          })
-          .then(createdStudent => {
-            expect(createdStudent.name).to.be.equal('Karley Remoteson');expect(createdStudent.campusId).to.be.equal(1);
-          })
+        xit('should create a student associated with the campus indicated by the route', async () => {
+          const response = await agent.post('/api/campuses/1/students')
+            .send({
+              name: 'Karley Remoteson',
+              phase: 'junior'
+            })
+            .expect(201);
+          const createdStudent = await Student.findById(response.body.id);
+          expect(createdStudent.name).to.be.equal('Karley Remoteson');expect(createdStudent.campusId).to.be.equal(1);
         });
       });
     })
@@ -201,22 +182,21 @@ describe('Tier Three', () => {
           expect(addCampusAction.campus).to.eql(starfleetCampus);
         });
 
-        xit('postCampus() returns a thunk to post a new campus to the backend and dispatch an ADD_CAMPUS action', () => {
+        xit('postCampus() returns a thunk to post a new campus to the backend and dispatch an ADD_CAMPUS action', async () => {
           mock.onPost('/api/campuses').replyOnce(201, starfleetCampus);
-          return store.dispatch(postCampus(starfleetCampus))
-          .then(() => {
-            const actions = store.getActions();
-            expect(actions[0].type).to.equal('ADD_CAMPUS');
-            expect(actions[0].campus).to.deep.equal(starfleetCampus);
-            return Campus.findById(1)
-          })
+
+          await store.dispatch(postCampus(starfleetCampus))
+          const actions = store.getActions();
+          expect(actions[0].type).to.equal('ADD_CAMPUS');
+          expect(actions[0].campus).to.deep.equal(starfleetCampus);
+          await Campus.findById(1)
         });
       })
 
       describe('reducer', () => {
           // defined in ../client/redux/reducer.js
 
-          xit('returns a new state with the newly created campus added to the list of campuses', () => {
+        xit('returns a new state with the newly created campus added to the list of campuses', () => {
           const remoteCampus = {id: 1, name: 'Fullstack Remote Campus'}
           const starfleetCampus = {id: 2, name: 'Starfleet Academy'}
           initialState.campuses = [remoteCampus];

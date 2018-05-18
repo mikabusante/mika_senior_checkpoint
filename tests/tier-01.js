@@ -101,12 +101,12 @@ describe('Tier One', () => {
 
 
   describe('Front-End', () => {
+
     const campuses = [
       { name: 'New York' },
       { name: 'Chicago' },
       { name: 'Pluto' }
     ];
-
     // defined in ../client/components/CampusList.js
     describe('<CampusList /> component', () => {
       xit('renders an unordered list', () => {
@@ -115,9 +115,9 @@ describe('Tier One', () => {
       })
 
       xit('renders list items for the campuses passed in as props', async () => {
-        const campuses = await Campus.bulkCreate(campuses)
+        const campusRecords = await Campus.bulkCreate(campuses)
         //we are creating the campuses in the database so the extra credit in tier-4 doesn't break this spec.
-        const wrapper = shallow(<CampusList campuses={campuses} />);
+        const wrapper = shallow(<CampusList campuses={campusRecords} />);
         const listItems = wrapper.find('li');
         expect(listItems).to.have.length(3);
         expect(listItems.at(2).text()).to.contain('Pluto');

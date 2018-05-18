@@ -40,8 +40,8 @@ import { fetchCampuses, selectCampus, setStudents } from '../client/redux/action
 
 describe('Tier Two', () => {
   describe('Back-end', () => {
-    before(() => db.sync({ force: true }));
-    after(() => db.sync({ force: true }));
+    before(async () => await db.sync({ force: true }));
+    after(async () => await db.sync({ force: true }));
 
     // defined in ../server/models/Student.js
     describe('Student model', () => {
@@ -52,75 +52,66 @@ describe('Tier Two', () => {
           student = Student.build();
         });
 
-        xit('should require name', () => {
-          return student.validate()
-          .then(() => {
+        xit('should require name', async () => {
+          try {
+            await student.validate()
             throw new Error('Validation succeeded but should have failed')
-          }, err => {
+          } catch (err) {
             expect(err.message).to.contain('name');
-          });
+          }
         });
 
-        xit('should have a phase property of either "junior" or "senior"', () => {
+        xit('should have a phase property of either "junior" or "senior"', async () => {
           student.name = "Mariya Dova"
           student.phase = "super";
 
-          return student.save()
-          .then(() => {
+          try {
+            await student.save()
             throw new Error ('Promise should have rejected.');
-          }, err => {
+          } catch (err) {
             expect(err).to.exist;
             expect(err.message).to.contain('phase');
-          });
+          }
         });
 
       });
     });
 
-    describe('Campus/Student association', () => {
+    describe('Campus/Student association', async () => {
       // defined in ../server/models/index.js
       let student1, student2, campus;
 
-      before(() => Promise.all([
-          Campus.create({
-            id: 1,
-            name: 'Grace Hopper'
-          }),
-          Student.create({
-            name: 'Terry Witz',
-            phase: 'junior',
-            campusId: 1
-          }),
-          Student.create({
-            name: 'Yuval Ivana',
-            phase: 'senior',
-            campusId: 1
-          })
-        ])
-        .then(([ _campus, _student1, _student2 ]) => {
-          campus = _campus;
-          student1 = _student1;
-          student2 = _student2;
+      before(async () => {
+        campus = await Campus.create({
+          id: 1,
+          name: 'Grace Hopper'
+        });
+
+        student1 = await Student.create({
+          name: 'Terry Witz',
+          phase: 'junior',
+          campusId: 1
         })
-      );
+
+        student2 = await Student.create({
+          name: 'Yuval Ivana',
+          phase: 'senior',
+          campusId: 1
+        })
+      });
 
       describe('Campus', () => {
-        xit('should have associated students', () => {
-          return campus.hasStudents([student1, student2])
-          .then(result => {
-            expect(result).to.be.true;
-          });
+        xit('should have associated students', async () => {
+          const result = await campus.hasStudents([student1, student2])
+          expect(result).to.be.true;
         });
       });
 
       describe('GET /campuses/:id/students route', () => {
-        xit('should get all students associated with a campus', () => {
-          return agent.get('/api/campuses/1/students')
-          .expect(200)
-          .then(res => {
-            expect(res.body).to.have.length(2);
-            expect(res.body[0].campusId).to.equal(1);
-          });
+        xit('should get all students associated with a campus', async () => {
+          const response = await agent.get('/api/campuses/1/students').expect(200);
+          expect(response.body).to.have.length(2);
+          expect(response.body[0].campusId).to.equal(1);
         });
       });
     });
@@ -220,14 +211,12 @@ describe('Tier Two', () => {
         });
 
 
-        xit('fetchCampuses() returns a thunk to fetch campuses from the backend and dispatch a SET_CAMPUSES action', () => {
+        xit('fetchCampuses() returns a thunk to fetch campuses from the backend and dispatch a SET_CAMPUSES action', async () => {
           mock.onGet('/api/campuses').replyOnce(200, campuses);
-          return store.dispatch(fetchCampuses())
-          .then(() => {
-            const actions = store.getActions();
-            expect(actions[0].type).to.equal('SET_CAMPUSES');
-            expect(actions[0].campuses).to.deep.equal(campuses);
-          })
+          await store.dispatch(fetchCampuses())
+          const actions = store.getActions();
+          expect(actions[0].type).to.equal('SET_CAMPUSES');
+          expect(actions[0].campuses).to.deep.equal(campuses);
         });
       });
 
