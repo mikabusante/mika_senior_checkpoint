@@ -25,8 +25,8 @@ import { setCampuses } from '../client/redux/actions';
 import reducer from '../client/redux/reducer';
 
 describe('Tier One', () => {
-  before(async () => await db.sync({ force: true }));
-  after(async () => await db.sync({ force: true }));
+  before(() => db.sync({ force: true }));
+  after(() => db.sync({ force: true }));
 
   // defined in ../server/models/Campus.js
   describe('Campus model', () => {

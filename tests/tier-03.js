@@ -56,7 +56,7 @@ describe('Tier Three', () => {
       });
     });
 
-    after(async () => await db.sync({ force: true }));
+    after(() => db.sync({ force: true }));
 
     describe('Student', () => {
       describe('Class method - findByPhase', () => {

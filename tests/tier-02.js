@@ -40,8 +40,8 @@ import { fetchCampuses, selectCampus, setStudents } from '../client/redux/action
 
 describe('Tier Two', () => {
   describe('Back-end', () => {
-    before(async () => await db.sync({ force: true }));
-    after(async () => await db.sync({ force: true }));
+    before(() => db.sync({ force: true }));
+    after(() => db.sync({ force: true }));
 
     // defined in ../server/models/Student.js
     describe('Student model', () => {
