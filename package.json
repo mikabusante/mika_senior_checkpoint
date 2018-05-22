@@ -3,10 +3,14 @@
   "version": "1.0.0",
   "author": "Fullstack Instructors",
   "scripts": {
-    "test": "mocha ./tests --recursive --watch --compilers js:babel-register",
-    "tier-1": "mocha ./tests/tier-01 --recursive --watch --compilers js:babel-register",
-    "tier-2": "mocha ./tests/tier-02 --recursive --watch --compilers js:babel-register",
-    "tier-3": "mocha ./tests/tier-03 --recursive --watch --compilers js:babel-register",
+    "test":
+      "mocha ./tests --recursive --watch --require babel-polyfill --require babel-register",
+    "tier-1":
+      "mocha ./tests/tier-01 --recursive --watch --require babel-polyfill --require babel-register",
+    "tier-2":
+      "mocha ./tests/tier-02 --recursive --watch --require babel-polyfill --require babel-register",
+    "tier-3":
+      "mocha ./tests/tier-03 --recursive --watch --require babel-polyfill --require babel-register",
     "start": "webpack -w & nodemon server --watch server",
     "db-init": "pg-init checkpoint_senior_tiers",
     "postinstall": "npm run db-init"
@@ -15,6 +19,7 @@
     "axios-mock-adapter": "^1.9.0",
     "babel-core": "^6.25.0",
     "babel-loader": "^7.1.1",
+    "babel-polyfill": "^6.26.0",
     "babel-preset-env": "^1.6.0",
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-2": "^6.24.1",
