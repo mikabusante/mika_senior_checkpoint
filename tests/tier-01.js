@@ -31,28 +31,30 @@ describe('Tier One', () => {
   // defined in ../server/models/Campus.js
   describe('Campus model', () => {
     describe('Validations', () => {
-      xit('requires name', () => {
+      xit('requires name', async () => {
         const campus = Campus.build();
 
-        return campus.validate()
-        .then(() => {
+        try {
+          await campus.validate()
           throw Error('validation was successful but should have failed without `name`');
-        }, err => {
+        }
+        catch (err) {
           expect(err.message).to.contain('name cannot be null');
-        });
+        }
       });
 
-      xit('requires name to not be an empty string', () => {
+      xit('requires name to not be an empty string', async () => {
         const campus = Campus.build({
           name: ''
         });
 
-        return campus.validate()
-        .then(() => {
+        try {
+          await campus.validate()
           throw Error('validation was successful but should have failed if name is an empty string');
-        }, err => {
+        } catch (err) {
           expect(err.message).to.contain('Validation error');
-        });
+          /* handle error */
+        }
       });
     });
   });
@@ -70,47 +72,41 @@ describe('Tier One', () => {
       }
     ];
 
-    before(() =>
-      Campus.bulkCreate(campusData)
-      .then(createdCampuses => {
-        storedCampuses = createdCampuses.map(campus => campus.dataValues);
-      })
-    );
+    before(async () => {
+      const createdCampuses = await Campus.bulkCreate(campusData)
+      storedCampuses = createdCampuses.map(campus => campus.dataValues);
+    });
 
     // Route for fetching all campuses
     describe('GET /api/campuses', () => {
-      xit('serves up all Campuses', () => {
-        return agent
-        .get('/api/campuses')
-        .expect(200)
-        .then(response => {
-          expect(response.body).to.have.length(2);
-          expect(response.body[0].name).to.equal(storedCampuses[0].name);
-        });
+      xit('serves up all Campuses', async () => {
+        const response = await agent
+          .get('/api/campuses')
+          .expect(200);
+        expect(response.body).to.have.length(2);
+        expect(response.body[0].name).to.equal(storedCampuses[0].name);
       });
     });
 
     // Route for fetching a single campus
     describe('GET /api/campuses/:id', () => {
-      xit('serves up a single Campus by its id', () => {
-        return agent
-        .get('/api/campuses/1')
-        .expect(200)
-        .then(response => {
-          expect(response.body.name).to.equal('Grace Hopper');
-        });
+      xit('serves up a single Campus by its id', async () => {
+        const response = await agent
+          .get('/api/campuses/1')
+          .expect(200);
+        expect(response.body.name).to.equal('Grace Hopper');
       });
     });
   });
 
 
   describe('Front-End', () => {
+
     const campuses = [
       { name: 'New York' },
       { name: 'Chicago' },
       { name: 'Pluto' }
     ];
-
     // defined in ../client/components/CampusList.js
     describe('<CampusList /> component', () => {
       xit('renders an unordered list', () => {
@@ -118,16 +114,13 @@ describe('Tier One', () => {
         expect(wrapper.find('ul')).to.have.length(1);
       })
 
-      xit('renders list items for the campuses passed in as props', () => {
-
-        return Campus.bulkCreate(campuses)
-        .then(() => {
-          //we are creating the campuses in the database so the extra credit in tier-4 doesn't break this spec.
-          const wrapper = shallow(<CampusList campuses={campuses} />);
-          const listItems = wrapper.find('li');
-          expect(listItems).to.have.length(3);
-          expect(listItems.at(2).text()).to.contain('Pluto');
-        })
+      xit('renders list items for the campuses passed in as props', async () => {
+        const campusRecords = await Campus.bulkCreate(campuses)
+        //we are creating the campuses in the database so the extra credit in tier-4 doesn't break this spec.
+        const wrapper = shallow(<CampusList campuses={campusRecords} />);
+        const listItems = wrapper.find('li');
+        expect(listItems).to.have.length(3);
+        expect(listItems.at(2).text()).to.contain('Pluto');
       });
     });
 
