@@ -108,7 +108,8 @@ describe('Tier Three', () => {
             })
             .expect(201);
           const createdStudent = await Student.findById(response.body.id);
-          expect(createdStudent.name).to.be.equal('Karley Remoteson');expect(createdStudent.campusId).to.be.equal(1);
+          expect(createdStudent.name).to.be.equal('Karley Remoteson');
+          expect(createdStudent.campusId).to.be.equal(1);
         });
       });
     })
