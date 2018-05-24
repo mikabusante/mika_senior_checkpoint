@@ -1,6 +1,8 @@
 import axios from 'axios';
 import { SET_CAMPUSES, SELECT_CAMPUS, ADD_CAMPUS } from './constants';
 
+// ACTION CREATORS
+
 export function setCampuses () {
   //your code here
 }
@@ -12,6 +14,8 @@ export function selectCampus () {
 export function addCampus () {
   //your code here
 }
+
+// THUNK CREATORS
 
 export function fetchCampuses () {
   //your code here

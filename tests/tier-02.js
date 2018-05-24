@@ -170,7 +170,7 @@ describe('Tier Two', () => {
         expect(renderedRedPlanetCampus.find('h2').text()).to.equal('Red Planet');
       });
 
-      xit('should render a list of <SingleStudent /> components', () => {
+      xit('should render a list of <SingleStudent /> components with the student passed in', () => {
         const renderedMarsStudents = renderedMarsCampus.find(SingleStudent);
         expect(renderedMarsStudents.length).to.equal(4);
         expect(renderedMarsStudents.get(2).props.student.name).to.equal('Marvin Lee');
