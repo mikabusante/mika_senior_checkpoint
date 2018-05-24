@@ -35,8 +35,8 @@ const initialState = {
 };
 const store = mockStore(initialState);
 import reducer from '../client/redux/reducer';
-import { SELECT_CAMPUS, SET_STUDENTS } from '../client/redux/constants';
-import { fetchCampuses, selectCampus, setStudents } from '../client/redux/actions';
+import { SELECT_CAMPUS } from '../client/redux/constants';
+import { fetchCampuses, selectCampus } from '../client/redux/actions';
 
 describe('Tier Two', () => {
   describe('Back-end', () => {
@@ -67,9 +67,9 @@ describe('Tier Two', () => {
 
           try {
             await student.save()
-            throw new Error ('Promise should have rejected.');
+            throw new Error('Promise should have rejected.');
           } catch (err) {
-            expect(err).to.exist;
+            expect(err).to.exist; // eslint-disable-line no-unused-expressions
             expect(err.message).to.contain('phase');
           }
         });
@@ -77,7 +77,7 @@ describe('Tier Two', () => {
       });
     });
 
-    describe('Campus/Student association', async () => {
+    describe('Campus/Student association', () => {
       // defined in ../server/models/index.js
       let student1, student2, campus;
 
@@ -103,7 +103,7 @@ describe('Tier Two', () => {
       describe('Campus', () => {
         xit('should have associated students', async () => {
           const result = await campus.hasStudents([student1, student2])
-          expect(result).to.be.true;
+          expect(result).to.be.true; // eslint-disable-line no-unused-expressions
         });
       });
 
