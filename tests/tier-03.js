@@ -78,7 +78,7 @@ describe('Tier Three', () => {
         xit('should populate (eager-load) the student information for the found campus', async () => {
           const response = await agent.get('/api/campuses/1').expect(200);
           expect(response.body.students.length).to.equal(2);
-          expect(response.body.students[0].name).to.exist;
+          expect(response.body.students[0].name).to.exist; // eslint-disable-line no-unused-expressions
         })
       })
 
@@ -129,12 +129,12 @@ describe('Tier Three', () => {
 
       xit('should be a class component with an initial local state', () => {
 
-        expect(campusFormInstance).to.exist;
+        expect(campusFormInstance).to.exist; // eslint-disable-line no-unused-expressions
         expect(campusFormInstance.state).to.eql({name: ''});
       })
 
       xit('should render an <input /> element', () => {
-        expect(renderedCampusForm.find('input').node).to.exist;
+        expect(renderedCampusForm.find('input').node).to.exist; // eslint-disable-line no-unused-expressions
       })
 
       xit('should have a class method called handleChange that is invoked when there is a change event triggered by the <input /> element', () => {
