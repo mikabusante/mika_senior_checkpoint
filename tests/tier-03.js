@@ -82,7 +82,7 @@ describe('Tier Three', () => {
       })
 
       describe('POST /campuses/ route', () => {
-        xit.('should create a campus', async () => {
+        xit('should create a campus', async () => {
           // defined in ../server/routes/campuses.js
 
           const response = await agent.post('/api/campuses')
