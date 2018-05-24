@@ -46,12 +46,12 @@ describe('Tier Three', () => {
       await Student.create({
         name: 'Terry Witz',
         phase: 'junior',
-        campus: graceHopperCampus
+        campusId: graceHopperCampus.id
       });
       await Student.create({
         name: 'Yuval Ivana',
         phase: 'senior',
-        campus: graceHopperCampus
+        campusId: graceHopperCampus.id
       });
     });
 
