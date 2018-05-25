@@ -117,10 +117,10 @@ describe('Tier Three', () => {
     describe('<CampusForm /> component', () => {
       // defined in ../client/components/CampusForm.js
 
-      const renderedCampusForm = shallow(<CampusForm />);
-
+      let renderedCampusForm;
       let campusFormInstance;
       beforeEach(() => {
+        renderedCampusForm = shallow(<CampusForm />);
         campusFormInstance = renderedCampusForm.instance();
       })
 
@@ -135,7 +135,7 @@ describe('Tier Three', () => {
         expect(renderedCampusForm.find('input').node).to.exist; // eslint-disable-line no-unused-expressions
       })
 
-      xit('should have a class method called handleChange that is invoked when there is a change event triggered by the <input /> element', () => {
+      it('should have a method called handleChange that is invoked when there is a change event triggered by the <input /> element', () => {
         expect(typeof campusFormInstance.handleChange).to.equal('function')
         const handleChangeSpy = sinon.spy()
         campusFormInstance.handleChange = handleChangeSpy;
@@ -146,13 +146,11 @@ describe('Tier Three', () => {
         expect(handleChangeSpy.calledOnce).to.equal(true);
       })
 
-      xit('handleChange should update the local state', () => {
-        const renderedCampusForm2 = shallow(<CampusForm />);
-        const campusFormInstance2 = renderedCampusForm2.instance();
-        renderedCampusForm2.find('input').simulate('change', {
+      it('handleChange should update the local state', () => {
+        renderedCampusForm.find('input').simulate('change', {
           target: { value: 'Another Campus Name' }
         })
-        expect(campusFormInstance2.state.name).to.equal('Another Campus Name')
+        expect(campusFormInstance.state.name).to.equal('Another Campus Name')
       })
 
     })
