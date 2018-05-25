@@ -40,19 +40,18 @@ describe('Tier Three', () => {
   describe('Back-end', () => {
     before(async () => {
       await db.sync({ force: true });
-      await Campus.create({
-        id: 1,
+      const graceHopperCampus = await Campus.create({
         name: 'Grace Hopper'
       });
       await Student.create({
         name: 'Terry Witz',
         phase: 'junior',
-        campusId: 1
+        campusId: graceHopperCampus.id
       });
       await Student.create({
         name: 'Yuval Ivana',
         phase: 'senior',
-        campusId: 1
+        campusId: graceHopperCampus.id
       });
     });
 
@@ -88,12 +87,11 @@ describe('Tier Three', () => {
 
           const response = await agent.post('/api/campuses')
             .send({
-              id: 2,
               name: 'Fullstack Remote Campus'
             })
             .expect(201);
-          const createdCampus = await Campus.findById(response.body.id)
-          expect(createdCampus.name).to.be.equal('Fullstack Remote Campus')
+          const createdCampus = await Campus.findById(response.body.id);
+          expect(createdCampus.name).to.be.equal('Fullstack Remote Campus');
         });
       });
 
