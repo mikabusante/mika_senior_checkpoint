@@ -135,7 +135,7 @@ describe('Tier Three', () => {
         expect(renderedCampusForm.find('input').node).to.exist; // eslint-disable-line no-unused-expressions
       })
 
-      xit('should have a class method called handleChange that is invoked when there is a change event triggered by the <input /> element (NOTE: an arrow function will not pass the spec) ', () => {
+      xit('should have a class method called handleChange that is invoked when there is a change event triggered by the <input /> element', () => {
         const handleChangeSpy = sinon.spy(CampusForm.prototype, 'handleChange')
         const renderedCampusFormWithSpy = shallow(<CampusForm />);
 
