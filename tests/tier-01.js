@@ -156,7 +156,7 @@ describe('Tier One', () => {
       )
 
       xit('returns a new state with the updated campuses', () => {
-        expect(newState.campuses).to.equal(campuses);
+        expect(newState.campuses).to.deep.equal(campuses);
       });
 
       xit('does not modify the previous state', () => {
