@@ -117,10 +117,10 @@ describe('Tier Three', () => {
     describe('<CampusForm /> component', () => {
       // defined in ../client/components/CampusForm.js
 
-      const renderedCampusForm = shallow(<CampusForm />);
-
+      let renderedCampusForm;
       let campusFormInstance;
       beforeEach(() => {
+        renderedCampusForm = shallow(<CampusForm />);
         campusFormInstance = renderedCampusForm.instance();
       })
 
@@ -135,14 +135,14 @@ describe('Tier Three', () => {
         expect(renderedCampusForm.find('input').node).to.exist; // eslint-disable-line no-unused-expressions
       })
 
-      xit('should have a class method called handleChange that is invoked when there is a change event triggered by the <input /> element', () => {
-        const handleChangeSpy = sinon.spy(CampusForm.prototype, 'handleChange')
-        const renderedCampusFormWithSpy = shallow(<CampusForm />);
-
-        renderedCampusFormWithSpy.find('input').simulate('change', {
+      xit('should have a method called handleChange that is invoked when there is a change event triggered by the <input /> element', () => {
+        expect(typeof campusFormInstance.handleChange).to.equal('function')
+        const handleChangeSpy = sinon.spy()
+        campusFormInstance.handleChange = handleChangeSpy;
+        renderedCampusForm.setState({})
+        renderedCampusForm.find('input').simulate('change', {
           target: { value: 'A New Campus Name' }
         })
-
         expect(handleChangeSpy.calledOnce).to.equal(true);
       })
 
