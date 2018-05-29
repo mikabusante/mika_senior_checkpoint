@@ -38,8 +38,7 @@ import { postCampus, addCampus } from '../client/redux/actions';
 
 describe('Tier Three', () => {
   describe('Back-end', () => {
-    before(async () => {
-      await db.sync({ force: true });
+    beforeEach(async () => {
       const graceHopperCampus = await Campus.create({
         name: 'Grace Hopper'
       });
@@ -54,8 +53,6 @@ describe('Tier Three', () => {
         campusId: graceHopperCampus.id
       });
     });
-
-    after(() => db.sync({ force: true }));
 
     describe('Student', () => {
       describe('Class method - findByPhase', () => {
@@ -124,9 +121,7 @@ describe('Tier Three', () => {
         campusFormInstance = renderedCampusForm.instance();
       })
 
-
       xit('should be a class component with an initial local state', () => {
-
         expect(campusFormInstance).to.exist; // eslint-disable-line no-unused-expressions
         expect(campusFormInstance.state).to.eql({name: ''});
       })

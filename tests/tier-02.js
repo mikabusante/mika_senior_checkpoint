@@ -40,9 +40,6 @@ import { fetchCampuses, selectCampus } from '../client/redux/actions';
 
 describe('Tier Two', () => {
   describe('Back-end', () => {
-    before(() => db.sync({ force: true }));
-    after(() => db.sync({ force: true }));
-
     // defined in ../server/models/Student.js
     describe('Student model', () => {
       describe('Validations', () => {
@@ -81,7 +78,7 @@ describe('Tier Two', () => {
       // defined in ../server/models/index.js
       let student1, student2, campus;
 
-      before(async () => {
+      beforeEach(async () => {
         campus = await Campus.create({
           id: 1,
           name: 'Grace Hopper'
@@ -192,16 +189,12 @@ describe('Tier Two', () => {
         ];
 
         let mock;
-        before(() => {
+        beforeEach(() => {
           mock = new MockAdapter(axios)
         })
 
         afterEach(() => {
           mock.reset();
-        })
-
-        after(() => {
-          mock.restore();
         })
 
         xit('should allow synchronous creation of SELECT_CAMPUS actions', () => {
