@@ -4,13 +4,13 @@
   "author": "Fullstack Instructors",
   "scripts": {
     "test":
-      "mocha ./tests --recursive --watch --require babel-polyfill --require babel-register",
+      "mocha ./tests/setup.js ./tests --recursive --watch --require babel-polyfill --require babel-register",
     "tier-1":
-      "mocha ./tests/tier-01 --recursive --watch --require babel-polyfill --require babel-register",
+      "mocha ./tests/setup.js ./tests/tier-01 --recursive --watch --require babel-polyfill --require babel-register",
     "tier-2":
-      "mocha ./tests/tier-02 --recursive --watch --require babel-polyfill --require babel-register",
+      "mocha ./tests/setup.js ./tests/tier-02 --recursive --watch --require babel-polyfill --require babel-register",
     "tier-3":
-      "mocha ./tests/tier-03 --recursive --watch --require babel-polyfill --require babel-register",
+      "mocha ./tests/setup.js ./tests/tier-03 --recursive --watch --require babel-polyfill --require babel-register",
     "start": "webpack -w & nodemon server --watch server",
     "db-init": "pg-init checkpoint_senior_tiers",
     "postinstall": "npm run db-init"

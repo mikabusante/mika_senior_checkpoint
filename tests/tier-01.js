@@ -25,9 +25,6 @@ import { setCampuses } from '../client/redux/actions';
 import reducer from '../client/redux/reducer';
 
 describe('Tier One', () => {
-  before(() => db.sync({ force: true }));
-  after(() => db.sync({ force: true }));
-
   // defined in ../server/models/Campus.js
   describe('Campus model', () => {
     describe('Validations', () => {
@@ -72,7 +69,7 @@ describe('Tier One', () => {
       }
     ];
 
-    before(async () => {
+    beforeEach(async () => {
       const createdCampuses = await Campus.bulkCreate(campusData)
       storedCampuses = createdCampuses.map(campus => campus.dataValues);
     });
