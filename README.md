@@ -2,7 +2,7 @@ Welcome to your final checkpoint at Fullstack Academy!
 
 ## Resources
 
-Except for existing *codebases* (from workshops / checkpoints / projects you've done, or library / solution code), you are allowed to use any resources you'd like. That includes all documentation and workshop *instructions*.
+Except for existing *codebases* (from workshops / checkpoints / projects you've done, or library / solution code), you are allowed to use any resources you'd like. That includes all documentation and workshop *instructions*. This is an individual assessment, so you are not allowed to consult one another.
 
 Please make sure you complete specs located in the following files:
 
@@ -14,7 +14,7 @@ Please make sure you complete specs located in the following files:
 
 If you complete and pass all the specs in these three files, you may attempt the extra-credit in `tests/tier-04-extra-credit.md`
 
-#### You MUST complete 01, 02, and 03 tests in this order, and they MAY depend on eachother.  This checkpoint is organized in tiers. Each tier will require you to work across the stack, setting up the necessary functionality for the tests in the next tier. The tiers will increase in difficulty as you progress.
+#### This checkpoint is organized in tiers. Each tier will require you to work across the stack, setting up functionality for the tests in the next tier. You should work on the tiers in order (tier-1 => tier-2 => tier-3), but if you get stuck on a spec, you may skip it and come back to it later. The tests MAY depend on each other.
 
 ## Getting started
 
@@ -43,4 +43,3 @@ it.only('does something', testFunc);
 1. `git add -A`
 2. `git commit -m 'submission for deadline'`
 3. `git push origin master`
-
