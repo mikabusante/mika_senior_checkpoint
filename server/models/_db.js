@@ -1,8 +1,6 @@
 'use strict';
 
 const Sequelize = require('sequelize');
-const db = new Sequelize('postgres://localhost:5432/checkpoint_senior_tiers', {
-    logging: false
-});
+const config = require('../config/config');
 
-module.exports = db;
+module.exports = new Sequelize(config.database, config.username, config.password, config);
