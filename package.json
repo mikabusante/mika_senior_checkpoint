@@ -9,7 +9,7 @@
     "tier-3": "mocha ./tests/setup.js ./tests/tier-03 --recursive --watch --require babel-polyfill --require babel-register",
     "start": "webpack -w & nodemon server --watch server",
     "db-init": "pg-init checkpoint_senior_tiers",
-    "grade": "DB_PASSWORD=root DB_USERNAME=root mocha ./tests/setup.js ./tests --recursive --reporter spec --timeout 1000 --compilers js:babel-register",
+    "grade": "DB_PASSWORD=root DB_USERNAME=root mocha ./tests/setup.js ./tests --recursive --reporter spec --timeout 1000 --require babel-polyfill --compilers js:babel-register",
     "postinstall": "npm run db-init"
   },
   "devDependencies": {
