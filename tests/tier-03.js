@@ -213,6 +213,15 @@ describe('Tier Three', () => {
   })
 
   // defined in ../utils/index.js
+  /*
+    When we go to generate groups of students, the processing is very slow.
+    Therefore, someone may not realize the time it takes, and click the 'Generate Pairs' button time and time again, thinking it's not working. 
+    To counter this, we essentially want to LIMIT how often a function can run per unit time.
+    Write a throttle method that will wrap a function and a throttle time (t).
+    This wrapped function will only run the original function one for every unit t.
+    Subsequent function calls within this period will be ignored until the period (t) expires. 
+  */
+ 
   describe('`throttle` utility method', () => {  
     xit('takes a function and a number (throttle time - in milliseconds) and returns a wrapped throttle function', () => {
       const funcToThrottle = (name) => {

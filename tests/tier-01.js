@@ -169,6 +169,12 @@ describe('Tier One', () => {
   });
 
   // defined in ../utils/index.js
+  /* 
+    Some of our campus names and even student names may be getting a bit long! 
+    We want a simple utility function that will produce initials for any string we provide.
+    Write the getInital functions that takes in a string containing any amount of words. Return the initials, capitalized, of each word.
+  */
+ 
   describe('`getInitials` utility method', () => {
     xit('takes a string and returns a string', () => {
       const initials = utils.getInitials('Corey Greenwald');
