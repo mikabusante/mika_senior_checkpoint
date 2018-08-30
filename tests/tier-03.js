@@ -218,45 +218,45 @@ describe('Tier Three', () => {
       const funcToThrottle = (name) => {
         console.log(`What up ${name}`)
       }    
-      const throttleTime = 1000;
+      const throttleTime = 200;
       const throttledFunction = utils.throttle(funcToThrottle, throttleTime);
       expect(throttledFunction).to.be.a('function');
     });
 
     xit('the returned throttled function runs the original function and upon invocation passes it the same arguments', () => {
-      const spiedFunction = sinon.spy();
-      const throttleTime = 1000;
+      const spiedFunction = chai.spy();
+      const throttleTime = 200;
       const throttledFunction = utils.throttle(spiedFunction, throttleTime);
       throttledFunction(1, 'omri', 'polar bear');
-      // expect(spiedFunction).to.have.been.called;
-      expect(spiedFunction).to.have.been.calledOnceWithExactly(1, 'omri', 'polar bear')
-    });
+      expect(spiedFunction).to.have.been.called.once;
+      expect(spiedFunction).to.have.been.called.with.exactly(1, 'omri', 'polar bear')
+    })
 
     xit('the throttled function ensures that multiple function calls within the throttling period will not invoke the original function', (done) => {
-      const spiedFunction = sinon.spy();
-      const throttleTime = 1000;
+      const spiedFunction = chai.spy();
+      const throttleTime = 200;
       const throttledFunction = utils.throttle(spiedFunction, throttleTime);
       throttledFunction();
       throttledFunction();
       setTimeout(() => {
         throttledFunction();
-        expect(spiedFunction).to.have.been.calledOnce;
+        expect(spiedFunction).to.have.been.called.once;
         done();
-      }, 900);
+      }, 150);
     });
 
     xit('the throttled function can invoke the original function after the throttling period is over', (done) => {
-      const spiedFunction = sinon.spy();
-      const throttleTime = 1000;
+      const spiedFunction = chai.spy();
+      const throttleTime = 200;
       const throttledFunction = utils.throttle(spiedFunction, throttleTime);
       throttledFunction();
       throttledFunction();
-      expect(spiedFunction).to.have.been.calledOnce;
+      expect(spiedFunction).to.have.been.called.once;
       setTimeout(() => {
         throttledFunction();
-        expect(spiedFunction).to.have.been.calledTwice;
+        expect(spiedFunction).to.have.been.called.twice;
         done();
-      }, 1100);
+      }, 250);
     });
   });
 })
