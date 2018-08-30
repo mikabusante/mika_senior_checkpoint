@@ -36,6 +36,9 @@ import reducer from '../client/redux/reducer';
 import { ADD_CAMPUS } from '../client/redux/constants';
 import { postCampus, addCampus } from '../client/redux/actions';
 
+// Utils
+const utils = require('../utils');
+
 describe('Tier Three', () => {
   describe('Back-end', () => {
     beforeEach(async () => {
@@ -208,4 +211,19 @@ describe('Tier Three', () => {
       })
     })
   })
+
+  // defined in ../utils/index.js
+  describe('`throttle` utility method', () => {
+    xit('', () => {
+      // ...
+    });
+
+    xit('', () => {
+      // ...
+    });
+
+    xit('', () => {
+      // ...
+    });
+  });
 })
