@@ -237,24 +237,24 @@ describe('Tier Two', () => {
   // defined in ../utils/index.js
   describe('`generateGroups` utility method', () => {
     xit('takes an array and a number (size) and returns an array', () => {
-      const resultA = utils.generateGroups(['red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'violet'], 1);
-      expect(resultA).to.be.an('array');
-      const resultB = utils.generateGroups(['types', {dont: 'matter'}, 0], 3);
-      expect(resultB).to.be.an('array');
+      const groupsA = utils.generateGroups(['red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'violet'], 1);
+      expect(groupsA).to.be.an('array');
+      const groupsB = utils.generateGroups(['types', {dont: 'matter'}, 0], 3);
+      expect(groupsB).to.be.an('array');
     });
 
     xit('groups the input array elements into nested arrays of the given size, such that the nested arrays contain the original elements in the original order', () => {
-      const resultA = utils.generateGroups(['a', 'b', 'c', 'd'], 2);
-      expect(resultA).to.deep.equal([['a', 'b'], ['c', 'd']]);
-      const resultB = utils.generateGroups(['up', 'charm', 'top', 'down', 'strange', 'bottom'], 3);
-      expect(resultB).to.deep.equal([['up', 'charm', 'top'], ['down', 'strange', 'bottom']]);
+      const groupsA = utils.generateGroups(['a', 'b', 'c', 'd'], 2);
+      expect(groupsA).to.deep.equal([['a', 'b'], ['c', 'd']]);
+      const groupsB = utils.generateGroups(['up', 'charm', 'top', 'down', 'strange', 'bottom'], 3);
+      expect(groupsB).to.deep.equal([['up', 'charm', 'top'], ['down', 'strange', 'bottom']]);
     });
 
     xit('handles inexact multiples by putting the remainder in the last group', () => {
-      const resultA = utils.generateGroups([{id: 5}, {id: 10}, {id: 20}], 2);
-      expect(resultA).to.deep.equal([[{id: 5}, {id: 10}], [{id: 20}]]);
-      const resultB = utils.generateGroups(['do', 're', 'me', 'fa', 'sol', 'la', 'ti', 'do'], 3);
-      expect(resultB).to.deep.equal([['do', 're', 'me'], ['fa', 'sol', 'la'], ['ti', 'do']]);
+      const groupsA = utils.generateGroups([{id: 5}, {id: 10}, {id: 20}], 2);
+      expect(groupsA).to.deep.equal([[{id: 5}, {id: 10}], [{id: 20}]]);
+      const groupsB = utils.generateGroups(['do', 're', 'me', 'fa', 'sol', 'la', 'ti', 'do'], 3);
+      expect(groupsB).to.deep.equal([['do', 're', 'me'], ['fa', 'sol', 'la'], ['ti', 'do']]);
     });
   });
 });

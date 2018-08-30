@@ -171,15 +171,15 @@ describe('Tier One', () => {
   // defined in ../utils/index.js
   describe('`getInitials` utility method', () => {
     xit('takes a string and returns a string', () => {
-      const result = utils.getInitials('Corey Greenwald');
-      expect(result).to.be.a('string');
+      const initials = utils.getInitials('Corey Greenwald');
+      expect(initials).to.be.a('string');
     });
 
-    xit('returns the first letter of each word in the input string', () => {
-      const resultA = utils.getInitials('Grace Hopper Academy');
-      expect(resultA).to.equal('GHA');
-      const resultB = utils.getInitials('hypermedia as the engine of application state');
-      expect(resultB).to.equal('hateoas');
+    xit('returns the first letter of each word in the input string, capitalized', () => {
+      const initialsGHA = utils.getInitials('Grace Hopper Academy');
+      expect(initialsGHA).to.equal('GHA');
+      const initialsHATEOAS = utils.getInitials('hypermedia as the engine of application state');
+      expect(initialsHATEOAS).to.equal('HATEOAS');
     });
   });
 
