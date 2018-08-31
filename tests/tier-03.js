@@ -218,7 +218,7 @@ describe('Tier Three', () => {
     Therefore, an end user may not realize the time it takes, and click the 'Generate Pairs' button time and time again, thinking it's not working.
     To counter this, we essentially want to LIMIT how often a function can run per unit time.
     Write a `throttle` method that will wrap a function and a throttle time (t).
-    This wrapped function will only run the original function one for every unit t.
+    This wrapped function will only run the original function once for every unit t.
     Subsequent function calls within this period will be ignored until the period (t) expires.
   */
 
