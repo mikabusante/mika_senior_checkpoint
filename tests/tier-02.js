@@ -260,6 +260,7 @@ describe('Tier Two', () => {
 
     xit('handles inexact multiples by putting the remainder in the last group', () => {
       const groupsA = utils.generateGroups([{id: 5}, {id: 10}, {id: 20}], 2);
+      // by the way, any objects in the input array can be added into the groups by reference, no need to copy / clone them
       expect(groupsA).to.deep.equal([[{id: 5}, {id: 10}], [{id: 20}]]);
       const groupsB = utils.generateGroups(['do', 're', 'me', 'fa', 'sol', 'la', 'ti', 'do'], 3);
       expect(groupsB).to.deep.equal([['do', 're', 'me'], ['fa', 'sol', 'la'], ['ti', 'do']]);
