@@ -222,7 +222,7 @@ describe('Tier Three', () => {
     Subsequent function calls within this period will be ignored until the period (t) expires.
   */
 
-  describe('Extra credit: `throttle` utility method', () => {
+  describe('`throttle` utility method', () => {
     xit('takes a function and a number (throttle time - in milliseconds) and returns a throttled function', () => {
       const funcToThrottle = (name) => {
         console.log(`What up ${name}`);
