@@ -24,6 +24,9 @@ import { SET_CAMPUSES } from '../client/redux/constants';
 import { setCampuses } from '../client/redux/actions';
 import reducer from '../client/redux/reducer';
 
+// Utils
+const utils = require('../utils');
+
 describe('Tier One', () => {
   // defined in ../server/models/Campus.js
   describe('Campus model', () => {
@@ -162,6 +165,28 @@ describe('Tier One', () => {
         });
       });
 
+    });
+  });
+
+  // defined in ../utils/index.js
+  /*
+    Some of our campus names and even student names may be getting a bit long!
+    We want a simple utility function that will produce initials for any string we provide.
+    Write the `getInitial` function that takes in a string containing any amount of words.
+    Return the initials, capitalized, of each word.
+  */
+
+  describe('`getInitials` utility method', () => {
+    xit('takes a string and returns a string', () => {
+      const initials = utils.getInitials('Corey Greenwald');
+      expect(initials).to.be.a('string');
+    });
+
+    xit('returns the first letter of each word in the input string, capitalized', () => {
+      const initialsGHA = utils.getInitials('Grace Hopper Academy');
+      expect(initialsGHA).to.equal('GHA');
+      const initialsHATEOAS = utils.getInitials('hypermedia as the engine of application state');
+      expect(initialsHATEOAS).to.equal('HATEOAS');
     });
   });
 

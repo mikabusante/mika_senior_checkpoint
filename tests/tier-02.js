@@ -38,6 +38,9 @@ import reducer from '../client/redux/reducer';
 import { SELECT_CAMPUS } from '../client/redux/constants';
 import { fetchCampuses, selectCampus } from '../client/redux/actions';
 
+// Utils
+const utils = require('../utils');
+
 describe('Tier Two', () => {
   describe('Back-end', () => {
     // defined in ../server/models/Student.js
@@ -228,6 +231,39 @@ describe('Tier Two', () => {
           expect(initialState.selectedCampus).to.deep.equal({});
         });
       });
+    });
+  });
+
+  // defined in ../utils/index.js
+  /*
+    One thing we'd like for each campus is to generate groups of students.
+    Although for now we won't be integrating this into our end user view, we'd like for you to address the functionality.
+    Write a function that will take in an array of strings, representing student names, and the size of groups to be made (number).
+    This `generateGroups` function will return an array of arrays of student groups.
+    All students that may not fit evenly into the expected length of groups will be placed in their own group.
+  */
+
+  describe('`generateGroups` utility method', () => {
+    xit('takes an array and a number (size) and returns an array', () => {
+      const groupsA = utils.generateGroups(['red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'violet'], 1);
+      expect(groupsA).to.be.an('array');
+      const groupsB = utils.generateGroups(['types', {dont: 'matter'}, 0], 3);
+      expect(groupsB).to.be.an('array');
+    });
+
+    xit('groups the input array elements into nested arrays of the given size, such that the nested arrays contain the original elements in the original order', () => {
+      const groupsA = utils.generateGroups(['a', 'b', 'c', 'd'], 2);
+      expect(groupsA).to.deep.equal([['a', 'b'], ['c', 'd']]);
+      const groupsB = utils.generateGroups(['up', 'charm', 'top', 'down', 'strange', 'bottom'], 3);
+      expect(groupsB).to.deep.equal([['up', 'charm', 'top'], ['down', 'strange', 'bottom']]);
+    });
+
+    xit('handles inexact multiples by putting the remainder in the last group', () => {
+      const groupsA = utils.generateGroups([{id: 5}, {id: 10}, {id: 20}], 2);
+      // by the way, any objects in the input array can be added into the groups by reference, no need to copy / clone them
+      expect(groupsA).to.deep.equal([[{id: 5}, {id: 10}], [{id: 20}]]);
+      const groupsB = utils.generateGroups(['do', 're', 'me', 'fa', 'sol', 'la', 'ti', 'do'], 3);
+      expect(groupsB).to.deep.equal([['do', 're', 'me'], ['fa', 'sol', 'la'], ['ti', 'do']]);
     });
   });
 });
