@@ -235,14 +235,14 @@ describe('Tier Two', () => {
   });
 
   // defined in ../utils/index.js
-  /* 
-   One thing we'd like for each campus, is to generate groups of students. 
-   Although we won't be visually implementing this today, we'd like for you to address the functionality. 
-   Write a function that will take in an array of strings, representing student names and the size of groups to be made (number).
-   This 'generateGroups' function will return an array of arrays of student groups.
-   All students that may not fit evenly into the expected length of groups will be placed in their own group.
+  /*
+    One thing we'd like for each campus, is to generate groups of students.
+    Although we won't be visually implementing this today, we'd like for you to address the functionality.
+    Write a function that will take in an array of strings, representing student names, and the size of groups to be made (number).
+    This `generateGroups` function will return an array of arrays of student groups.
+    All students that may not fit evenly into the expected length of groups will be placed in their own group.
   */
- 
+
   describe('`generateGroups` utility method', () => {
     xit('takes an array and a number (size) and returns an array', () => {
       const groupsA = utils.generateGroups(['red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'violet'], 1);
