@@ -61,17 +61,28 @@ describe('Tier Two', () => {
           }
         });
 
-        xit('should have a phase property of either "junior" or "senior"', async () => {
+        xit('should have a phase property of either NULL, "junior", or "senior" (nothing else)', async () => {
           student.name = "Mariya Dova"
-          student.phase = "super";
 
+          // confirming these work fine
+          await student.save();
+          student.phase = 'junior';
+          await student.save();
+          student.phase = 'senior';
+          await student.save();
+
+          // confirming this doesn't work at all
           try {
-            await student.save()
-            throw new Error('Promise should have rejected.');
+            student.phase = 'super';
+            await student.save();
           } catch (err) {
             expect(err).to.exist; // eslint-disable-line no-unused-expressions
             expect(err.message).to.contain('phase');
+            return; // everything is fine, so stop this spec.
           }
+
+          // if we got here, that means we DIDN'T fail above, which is wrong.
+          throw Error('Trying to `save` a student with invalid `phase` should have failed.');
         });
 
       });
