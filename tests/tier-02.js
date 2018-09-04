@@ -79,13 +79,18 @@ describe('Tier Two', () => {
 
     describe('Campus/Student association', () => {
       // defined in ../server/models/index.js
-      let student1, student2, campus;
+      let student1, student3, campus1;
 
       beforeEach(async () => {
-        campus = await Campus.create({
+        campus1 = await Campus.create({
           id: 1,
           name: 'Grace Hopper'
         });
+
+        await Campus.create({
+          id: 2,
+          name: 'Flex'
+        })
 
         student1 = await Student.create({
           name: 'Terry Witz',
@@ -93,7 +98,13 @@ describe('Tier Two', () => {
           campusId: 1
         })
 
-        student2 = await Student.create({
+        await Student.create({
+          name: 'Gaby Medina',
+          phase: 'senior',
+          campusId: 2
+        })
+
+        student3 = await Student.create({
           name: 'Yuval Ivana',
           phase: 'senior',
           campusId: 1
@@ -102,7 +113,7 @@ describe('Tier Two', () => {
 
       describe('Campus', () => {
         xit('should have associated students', async () => {
-          const result = await campus.hasStudents([student1, student2])
+          const result = await campus1.hasStudents([student1, student3])
           expect(result).to.be.true; // eslint-disable-line no-unused-expressions
         });
       });
