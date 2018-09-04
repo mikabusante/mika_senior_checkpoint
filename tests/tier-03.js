@@ -71,7 +71,7 @@ describe('Tier Three', () => {
 
     describe('Campus', () => {
 
-      describe('GET /campuses/:id route enhanced', () => {
+      describe('GET `/api/campuses/:id` route enhanced', () => {
         // defined in ../server/routes/campuses.js
 
         xit('should populate (eager-load) the student information for the found campus', async () => {
@@ -81,7 +81,7 @@ describe('Tier Three', () => {
         })
       })
 
-      describe('POST /campuses/ route', () => {
+      describe('POST `/api/campuses/` route', () => {
         xit('should create a campus', async () => {
           // defined in ../server/routes/campuses.js
 
@@ -95,7 +95,7 @@ describe('Tier Three', () => {
         });
       });
 
-      describe('POST /campuses/:id/students route', () => {
+      describe('POST `/api/campuses/:id/students` route', () => {
         // defined in ../server/routes/campuses.js
 
         xit('should create a student associated with the campus indicated by the route', async () => {

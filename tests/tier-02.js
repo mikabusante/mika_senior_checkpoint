@@ -107,7 +107,7 @@ describe('Tier Two', () => {
         });
       });
 
-      describe('GET /campuses/:id/students route', () => {
+      describe('GET `/api/campuses/:id/students` route', () => {
         xit('should get all students associated with a campus', async () => {
           const response = await agent.get('/api/campuses/1/students').expect(200);
           expect(response.body).to.have.length(2);

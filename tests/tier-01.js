@@ -78,7 +78,7 @@ describe('Tier One', () => {
     });
 
     // Route for fetching all campuses
-    describe('GET /api/campuses', () => {
+    describe('GET `/api/campuses`', () => {
       xit('serves up all Campuses', async () => {
         const response = await agent
           .get('/api/campuses')
@@ -89,7 +89,7 @@ describe('Tier One', () => {
     });
 
     // Route for fetching a single campus
-    describe('GET /api/campuses/:id', () => {
+    describe('GET `/api/campuses/:id`', () => {
       xit('serves up a single Campus by its id', async () => {
         const response = await agent
           .get('/api/campuses/2')
