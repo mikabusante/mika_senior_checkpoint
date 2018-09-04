@@ -204,55 +204,68 @@ describe('Tier Two', () => {
     });
 
     describe('Redux', () => {
-      describe('action creators', () => {
-        // defined in ../client/redux/actions.js
 
-        const campuses = [
-          { name: 'New York' },
-          { name: 'Chicago' },
-          { name: 'Pluto' }
-        ];
+      const campuses = [
+        { name: 'New York' },
+        { name: 'Chicago' },
+        { name: 'Pluto' }
+      ];
 
-        let mock;
-        beforeEach(() => {
-          mock = new MockAdapter(axios)
+      let mock;
+      beforeEach(() => {
+        mock = new MockAdapter(axios)
+      })
+
+      afterEach(() => {
+        mock.reset();
+      })
+
+      describe('selecting a campus', () => {
+
+        describe('action creator', () => {
+          // defined in ../client/redux/actions.js
+
+          xit('action creator should allow synchronous creation of SELECT_CAMPUS actions', () => {
+            const selectCampusAction = selectCampus(marsCampus);
+            expect(selectCampusAction.type).to.equal(SELECT_CAMPUS);
+            expect(selectCampusAction.campus).to.equal(marsCampus);
+          });
         })
 
-        afterEach(() => {
-          mock.reset();
+        describe('reducer', () => {
+          // defined in ../client/redux/reducer.js
+
+          xit('returns a new state with selected campus', () => {
+            const newState = reducer(
+              initialState,
+              {
+                type: SELECT_CAMPUS,
+                campus: marsCampus
+              }
+            );
+            expect(newState.selectedCampus).to.equal(marsCampus);
+            expect(initialState.selectedCampus).to.deep.equal({});
+          });
+        });
+
+      });
+
+      describe('setting multiple campuses', () => {
+
+        describe('action creator', () => {
+          // defined in ../client/redux/actions.js
+
+          xit('fetchCampuses() returns a thunk to fetch campuses from the backend and dispatch a SET_CAMPUSES action', async () => {
+            mock.onGet('/api/campuses').replyOnce(200, campuses);
+            await store.dispatch(fetchCampuses())
+            const actions = store.getActions();
+            expect(actions[0].type).to.equal('SET_CAMPUSES');
+            expect(actions[0].campuses).to.deep.equal(campuses);
+          });
         })
 
-        xit('should allow synchronous creation of SELECT_CAMPUS actions', () => {
-          const selectCampusAction = selectCampus(marsCampus);
-          expect(selectCampusAction.type).to.equal(SELECT_CAMPUS);
-          expect(selectCampusAction.campus).to.equal(marsCampus);
-        });
+      })
 
-
-        xit('fetchCampuses() returns a thunk to fetch campuses from the backend and dispatch a SET_CAMPUSES action', async () => {
-          mock.onGet('/api/campuses').replyOnce(200, campuses);
-          await store.dispatch(fetchCampuses())
-          const actions = store.getActions();
-          expect(actions[0].type).to.equal('SET_CAMPUSES');
-          expect(actions[0].campuses).to.deep.equal(campuses);
-        });
-      });
-
-      describe('reducer', () => {
-        // defined in ../client/redux/reducer.js
-
-        xit('returns a new state with selected campus', () => {
-          const newState = reducer(
-            initialState,
-            {
-              type: SELECT_CAMPUS,
-              campus: marsCampus
-            }
-          );
-          expect(newState.selectedCampus).to.equal(marsCampus);
-          expect(initialState.selectedCampus).to.deep.equal({});
-        });
-      });
     });
   });
 
