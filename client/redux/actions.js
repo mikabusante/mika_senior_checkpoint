@@ -3,24 +3,24 @@ import { SET_CAMPUSES, SELECT_CAMPUS, ADD_CAMPUS } from './constants';
 
 // ACTION CREATORS
 
-export function setCampuses () {
+export const setCampuses = () => {
   //your code here
-}
+};
 
-export function selectCampus () {
+export const selectCampus = () => {
   //you code here
-}
+};
 
-export function addCampus () {
+export const addCampus = () => {
   //your code here
-}
+};
 
 // THUNK CREATORS
 
-export function fetchCampuses () {
+export const fetchCampuses = () => {
   //your code here
-}
+};
 
-export function postCampus () {
+export const postCampus = () => {
   //your code here
-}
+};

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router';
 
-export default function App () {
+const App = () => {
   return (
     <div>
       <h1>School Name Goes Here</h1>
@@ -9,4 +9,6 @@ export default function App () {
       <Link to='/students'>Students</Link>
     </div>
   );
-}
+};
+
+export default App;

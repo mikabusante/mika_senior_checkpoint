@@ -12,11 +12,11 @@ const campusesSubRouter = require('./routes/campuses');
 
 app.use('/api/campuses', campusesSubRouter);
 
-app.get('/', function (req, res, next) {
+app.get('/', (req, res, next) => {
     res.sendFile(path.join(__dirname, './index.html'));
 });
 
-app.use(function (err, req, res, next) {
+app.use((err, req, res, next) => {
     console.error(err, err.stack);
     res.status(500).send(err);
 });

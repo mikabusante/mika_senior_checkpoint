@@ -1,6 +1,8 @@
 import React from 'react';
 import SingleStudent from './SingleStudent';
 
-export default function SingleCampus () {
+const SingleCampus = (props) => {
   return null;
-}
+};
+
+export default SingleCampus;

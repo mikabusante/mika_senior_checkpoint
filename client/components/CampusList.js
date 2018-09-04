@@ -1,9 +1,7 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-export default class CampusList extends Component {
+const CampusList = (props) => {
+  // your code here
+};
 
-  render() {
-    //your code here
-    return null;
-  }
-}
+export default CampusList;
