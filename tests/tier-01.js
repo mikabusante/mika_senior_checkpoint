@@ -92,9 +92,9 @@ describe('Tier One', () => {
     describe('GET /api/campuses/:id', () => {
       xit('serves up a single Campus by its id', async () => {
         const response = await agent
-          .get('/api/campuses/1')
+          .get('/api/campuses/2')
           .expect(200);
-        expect(response.body.name).to.equal('Grace Hopper');
+        expect(response.body.name).to.equal('Fullstack Academy');
       });
     });
   });
