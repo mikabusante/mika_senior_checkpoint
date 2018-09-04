@@ -135,7 +135,7 @@ describe('Tier One', () => {
 
       xit('creates an object with `type` and `campuses`', () => {
         expect(setCampusesAction.type).to.equal(SET_CAMPUSES);
-        expect(Array.isArray(setCampusesAction.campuses)).to.be.true; // eslint-disable-line no-unused-expressions
+        expect(Array.isArray(setCampusesAction.campuses)).to.be.true;
         expect(setCampusesAction.campuses[2].name).to.equal('Pluto');
       });
 

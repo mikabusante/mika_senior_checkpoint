@@ -76,7 +76,7 @@ describe('Tier Two', () => {
             student.phase = 'super';
             await student.save();
           } catch (err) {
-            expect(err).to.exist; // eslint-disable-line no-unused-expressions
+            expect(err).to.exist;
             expect(err.message).to.contain('phase');
             return; // everything is fine, so stop this spec.
           }
@@ -125,7 +125,7 @@ describe('Tier Two', () => {
       describe('Campus', () => {
         xit('should have associated students', async () => {
           const result = await campus1.hasStudents([student1, student3])
-          expect(result).to.be.true; // eslint-disable-line no-unused-expressions
+          expect(result).to.be.true;
         });
       });
 
