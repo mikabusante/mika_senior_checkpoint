@@ -18,7 +18,7 @@ const agent = require('supertest')(app);
 // Components
 import React from 'react';
 import { shallow } from 'enzyme';
-import CampusForm from '../client/components/CampusForm'
+import CampusInput from '../client/components/CampusInput'
 
 // Redux
 import axios from 'axios';
@@ -114,41 +114,41 @@ describe('Tier Three', () => {
   })
 
   describe('front end', () => {
-    describe('<CampusForm /> component', () => {
-      // defined in ../client/components/CampusForm.js
+    describe('<CampusInput /> component', () => {
+      // defined in ../client/components/CampusInput.js
 
-      let renderedCampusForm;
-      let campusFormInstance;
+      let renderedCampusInput;
+      let campusInputInstance;
       beforeEach(() => {
-        renderedCampusForm = shallow(<CampusForm />);
-        campusFormInstance = renderedCampusForm.instance();
+        renderedCampusInput = shallow(<CampusInput />);
+        campusInputInstance = renderedCampusInput.instance();
       })
 
       xit('should be a class component with an initial local state', () => {
-        expect(campusFormInstance).to.exist;
-        expect(campusFormInstance.state).to.eql({name: ''});
+        expect(campusInputInstance).to.exist;
+        expect(campusInputInstance.state).to.eql({name: ''});
       })
 
       xit('should render an <input /> element', () => {
-        expect(renderedCampusForm.find('input').node).to.exist;
+        expect(renderedCampusInput.find('input').node).to.exist;
       })
 
       xit('should have a method called handleChange that is invoked when there is a change event triggered by the <input /> element', () => {
-        expect(typeof campusFormInstance.handleChange).to.equal('function')
+        expect(typeof campusInputInstance.handleChange).to.equal('function')
         const handleChangeSpy = sinon.spy()
-        campusFormInstance.handleChange = handleChangeSpy;
-        renderedCampusForm.setState({})
-        renderedCampusForm.find('input').simulate('change', {
+        campusInputInstance.handleChange = handleChangeSpy;
+        renderedCampusInput.setState({})
+        renderedCampusInput.find('input').simulate('change', {
           target: { value: 'A New Campus Name' }
         })
         expect(handleChangeSpy.calledOnce).to.equal(true);
       })
 
       xit('handleChange should update the local state', () => {
-        renderedCampusForm.find('input').simulate('change', {
+        renderedCampusInput.find('input').simulate('change', {
           target: { value: 'Another Campus Name' }
         })
-        expect(campusFormInstance.state.name).to.equal('Another Campus Name')
+        expect(campusInputInstance.state.name).to.equal('Another Campus Name')
       })
 
     })
