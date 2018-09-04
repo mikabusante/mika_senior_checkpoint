@@ -227,45 +227,70 @@ describe('Tier Three', () => {
       const funcToThrottle = (name) => {
         console.log(`What up ${name}`);
       }
-      const throttleTime = 200;
+      const throttleTime = 50;
       const throttledFunction = utils.throttle(funcToThrottle, throttleTime);
       expect(throttledFunction).to.be.a('function');
     });
 
     xit('the returned throttled function runs the original function and upon invocation passes it the same arguments', () => {
       const spiedFunction = chai.spy();
-      const throttleTime = 200;
+      const throttleTime = 50;
       const throttledFunction = utils.throttle(spiedFunction, throttleTime);
+      // `throttle` itself does not call the original function
+      expect(spiedFunction).not.to.have.been.called;
       throttledFunction(1, 'omri', 'polar bear');
+      // calling the throttled function (the result of `throttle`) calls the original function
       expect(spiedFunction).to.have.been.called.once;
       expect(spiedFunction).to.have.been.called.with.exactly(1, 'omri', 'polar bear');
     })
 
     xit('the throttled function ensures that multiple function calls within the throttling period will not invoke the original function', (done) => {
       const spiedFunction = chai.spy();
-      const throttleTime = 200;
+      const throttleTime = 50;
       const throttledFunction = utils.throttle(spiedFunction, throttleTime);
+      expect(spiedFunction).not.to.have.been.called;
+      throttledFunction();
+      expect(spiedFunction).to.have.been.called.once;
       throttledFunction();
       throttledFunction();
+      // wait period has not been long enough, so the original function is not called a second time
+      expect(spiedFunction).to.have.been.called.once;
       setTimeout(() => {
         throttledFunction();
+        throttledFunction();
+        // wait period still has not been long enough, so the original function is not called a second time
         expect(spiedFunction).to.have.been.called.once;
-        done();
-      }, 150);
+        setTimeout(() => {
+          // previous invocations of the throttled function do NOT trigger the original to be called later
+          expect(spiedFunction).to.have.been.called.once;
+          done();
+        }, 70);
+      }, 40);
     });
 
     xit('the throttled function can invoke the original function after the throttling period is over', (done) => {
       const spiedFunction = chai.spy();
-      const throttleTime = 200;
+      const throttleTime = 50;
       const throttledFunction = utils.throttle(spiedFunction, throttleTime);
       throttledFunction();
-      throttledFunction();
-      expect(spiedFunction).to.have.been.called.once;
       setTimeout(() => {
         throttledFunction();
+        // wait period has been long enough, so the original function is called a second time
         expect(spiedFunction).to.have.been.called.twice;
-        done();
-      }, 250);
+        throttledFunction();
+        // wait period has not been long enough, so the original function is NOT called a third time
+        expect(spiedFunction).to.have.been.called.twice;
+        setTimeout(() => {
+          throttledFunction();
+          // wait period has been long enough, so the original function is called a third time
+          expect(spiedFunction).to.have.been.called.exactly(3);
+          setTimeout(() => {
+            // previous invocations of the throttled function do NOT trigger the original to be called later
+            expect(spiedFunction).to.have.been.called.exactly(3);
+            done();
+          }, 60);
+        }, 60);
+      }, 60);
     });
   });
 })
