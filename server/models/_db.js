@@ -1,3 +1,5 @@
+/* DO NOT EDIT */
+
 'use strict';
 
 const Sequelize = require('sequelize');

@@ -1,3 +1,5 @@
+/* DO NOT EDIT */
+
 module.exports = {
   database: 'checkpoint_senior_tiers',
   dialect: 'postgres',

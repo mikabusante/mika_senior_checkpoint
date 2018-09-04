@@ -1,3 +1,5 @@
+/* DO NOT EDIT */
+
 const path = require('path');
 
 module.exports = {
