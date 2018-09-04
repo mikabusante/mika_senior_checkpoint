@@ -235,7 +235,7 @@ describe('Tier Two', () => {
         describe('reducer', () => {
           // defined in ../client/redux/reducer.js
 
-          xit('returns a new state with selected campus', () => {
+          xit('returns an immutably-updated new state with selected campus', () => {
             const newState = reducer(
               initialState,
               {
@@ -245,6 +245,9 @@ describe('Tier Two', () => {
             );
             expect(newState.selectedCampus).to.equal(marsCampus);
             expect(initialState.selectedCampus).to.deep.equal({});
+            // these shouldn't have changed:
+            expect(newState.campuses).to.equal(initialState.campuses);
+            expect(newState.students).to.equal(initialState.students);
           });
         });
 

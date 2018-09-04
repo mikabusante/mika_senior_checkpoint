@@ -144,7 +144,9 @@ describe('Tier One', () => {
     // defined in ../client/redux/reducer.js
     describe('reducer', () => {
       const initialState = {
-        campuses: []
+        campuses: [],
+        selectedCampus: {},
+        students: [],
       };
 
       const newState = reducer(
@@ -156,12 +158,18 @@ describe('Tier One', () => {
       )
 
       xit('returns a new state with the updated campuses', () => {
+        // this should have changed:
         expect(newState.campuses).to.deep.equal(campuses);
+        // this should not have changed:
+        expect(newState.selectedCampus).to.equal(initialState.selectedCampus);
+        expect(newState.students).to.equal(initialState.students);
       });
 
       xit('does not modify the previous state', () => {
         expect(initialState).to.deep.equal({
-          campuses: []
+          campuses: [],
+          selectedCampus: {},
+          students: []
         });
       });
 

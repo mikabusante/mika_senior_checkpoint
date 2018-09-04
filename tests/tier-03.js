@@ -29,7 +29,8 @@ const middlewares = [thunkMiddleware];
 const mockStore = configureMockStore(middlewares);
 const initialState = {
   campuses: [],
-  selectedCampus: {}
+  selectedCampus: {},
+  students: [],
 };
 const store = mockStore(initialState);
 import reducer from '../client/redux/reducer';
@@ -207,6 +208,8 @@ describe('Tier Three', () => {
           );
           expect(newState.campuses.length).to.equal(2);
           expect(newState.campuses.find((campus => campus.name === 'Starfleet Academy'))).to.deep.equal(starfleetCampus);
+          expect(newState.students).to.equal(initialState.students);
+          expect(newState.selectedCampus).to.equal(initialState.selectedCampus);
         });
       })
     })
