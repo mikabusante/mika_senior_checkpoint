@@ -6,6 +6,8 @@ First, STOP AND COMMIT YOUR WORK. It is possible depending on your extra credit 
 
 To get a total of 6 extra points, you may hook up the <CampusList /> component and <CampusInput /> component to the store.
 
+To avoid breaking previously passing specs, please don't change any `export` statements already provided. You may add additional `export` statements for your `connect`ed components.
+
 You may use vanilla redux OR react-redux bindings to do this. More details found below!
 
 YOU MUST HAVE FINISHED TIER 01, 02, and 03 BEFORE ATTEMPTING THE EXTRA CREDIT.

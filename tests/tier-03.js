@@ -18,7 +18,7 @@ const agent = require('supertest')(app);
 // Components
 import React from 'react';
 import { shallow } from 'enzyme';
-import CampusInput from '../client/components/CampusInput'
+import { CampusInput } from '../client/components/CampusInput'
 
 // Redux
 import axios from 'axios';

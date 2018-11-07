@@ -17,7 +17,7 @@ const agent = require('supertest')(app);
 // CampusList component
 import { shallow } from 'enzyme';
 import React from 'react';
-import CampusList from '../client/components/CampusList';
+import { CampusList } from '../client/components/CampusList';
 
 // Redux
 import { SET_CAMPUSES } from '../client/redux/constants';
