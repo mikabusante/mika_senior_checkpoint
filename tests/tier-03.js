@@ -17,7 +17,9 @@ const agent = require('supertest')(app);
 
 // Components
 import React from 'react';
-import { shallow } from 'enzyme';
+import enzyme, { shallow } from 'enzyme';
+import Adapter from 'enzyme-adapter-react-16'
+enzyme.configure({ adapter: new Adapter() });
 import { CampusInput } from '../client/components/CampusInput'
 
 // Redux
@@ -131,7 +133,7 @@ describe('Tier Three', () => {
       })
 
       xit('renders an <input /> element', () => {
-        expect(renderedCampusInput.find('input').node).to.exist;
+        expect(renderedCampusInput.find('input').getElement()).to.exist;
       })
 
       xit('has a method called `handleChange` that is invoked when there is a change event triggered by the <input /> element', () => {
