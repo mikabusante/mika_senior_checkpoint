@@ -3,6 +3,7 @@
 const path = require('path');
 
 module.exports = {
+  mode: 'development',
   entry: [
     '@babel/polyfill', // enables async-await
     './client/index.js',
@@ -13,16 +14,13 @@ module.exports = {
   },
   devtool: 'source-map',
   module: {
-    loaders: [
+    rules: [
       {
         test: /\.jsx?$/,
         include: [
           path.resolve(__dirname, 'client')
         ],
         loader: 'babel-loader',
-        options: {
-          presets: ['react', 'env', 'stage-2']
-        }
       },
       {
         test: /\.scss$/,
