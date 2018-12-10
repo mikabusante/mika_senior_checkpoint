@@ -83,7 +83,7 @@ describe('Tier Three', () => {
       })
 
       describe('POST `/api/campuses/` route', () => {
-        xit('creates a campus', async () => {
+        xit('responds with a created campus', async () => {
           // defined in ../server/routes/campuses.js
 
           const response = await agent.post('/api/campuses')
@@ -99,7 +99,7 @@ describe('Tier Three', () => {
       describe('POST `/api/campuses/:id/students` route', () => {
         // defined in ../server/routes/campuses.js
 
-        xit('creates a student associated with the campus indicated by the route', async () => {
+        xit('responds with a created student, associated with the campus indicated by the route', async () => {
           const response = await agent.post('/api/campuses/1/students')
             .send({
               name: 'Karley Remoteson',
