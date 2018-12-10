@@ -31,7 +31,7 @@ describe('Tier One', () => {
   // defined in ../server/models/Campus.js
   describe('Campus model', () => {
     describe('Validations', () => {
-      xit('requires name', async () => {
+      xit('requires `name`', async () => {
         const campus = Campus.build();
 
         try {
@@ -43,7 +43,7 @@ describe('Tier One', () => {
         }
       });
 
-      xit('requires name to not be an empty string', async () => {
+      xit('requires `name` to not be an empty string', async () => {
         const campus = Campus.build({
           name: ''
         });
@@ -90,7 +90,7 @@ describe('Tier One', () => {
 
     // Route for fetching a single campus
     describe('GET `/api/campuses/:id`', () => {
-      xit('serves up a single Campus by its id', async () => {
+      xit('serves up a single Campus by its `id`', async () => {
         const response = await agent
           .get('/api/campuses/2')
           .expect(200);
@@ -157,7 +157,7 @@ describe('Tier One', () => {
         }
       )
 
-      xit('returns a new state with the updated campuses', () => {
+      xit('returns a new state with the updated `campuses`', () => {
         // this should have changed:
         expect(newState.campuses).to.deep.equal(campuses);
         // this should not have changed:

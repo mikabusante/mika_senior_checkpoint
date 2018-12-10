@@ -52,7 +52,7 @@ describe('Tier Two', () => {
           student = Student.build();
         });
 
-        xit('should require name', async () => {
+        xit('requires `name`', async () => {
           try {
             await student.validate()
             throw new Error('Validation succeeded but should have failed')
@@ -61,7 +61,7 @@ describe('Tier Two', () => {
           }
         });
 
-        xit('should have a phase property of either NULL, "junior", or "senior" (nothing else)', async () => {
+        xit('requires `phase` property to be either NULL, "junior", or "senior" (nothing else)', async () => {
           student.name = "Mariya Dova"
 
           // confirming these work fine
@@ -123,14 +123,14 @@ describe('Tier Two', () => {
       });
 
       describe('Campus', () => {
-        xit('should have associated students', async () => {
+        xit('has associated students', async () => {
           const result = await campus1.hasStudents([student1, student3])
           expect(result).to.be.true;
         });
       });
 
       describe('GET `/api/campuses/:id/students` route', () => {
-        xit('should get all students associated with a campus', async () => {
+        xit('gets all students associated with a campus', async () => {
           const response = await agent.get('/api/campuses/1/students').expect(200);
           expect(response.body).to.have.length(2);
           expect(response.body[0].campusId).to.equal(1);
@@ -187,12 +187,12 @@ describe('Tier Two', () => {
       // put first student back
       marsCampus.students.unshift(firstStudent);
 
-      xit('should render the name of the campus in an h2', () => {
+      xit('renders the name of the campus in an <h2>', () => {
         expect(renderedMarsCampus.find('h2').text()).to.equal('Mars');
         expect(renderedRedPlanetCampus.find('h2').text()).to.equal('Red Planet');
       });
 
-      xit('should render a list of <SingleStudent /> components with the student passed in', () => {
+      xit('renders a list of <SingleStudent /> components with the student passed in', () => {
         const renderedMarsStudents = renderedMarsCampus.find(SingleStudent);
         expect(renderedMarsStudents.length).to.equal(4);
         expect(renderedMarsStudents.get(2).props.student.name).to.equal('Marvin Lee');
@@ -222,10 +222,10 @@ describe('Tier Two', () => {
 
       describe('selecting a campus', () => {
 
-        describe('action creator', () => {
+        describe('`selectCampusAction` action creator', () => {
           // defined in ../client/redux/actions.js
 
-          xit('action creator should allow synchronous creation of SELECT_CAMPUS actions', () => {
+          xit('creates SELECT_CAMPUS actions', () => {
             const selectCampusAction = selectCampus(marsCampus);
             expect(selectCampusAction.type).to.equal(SELECT_CAMPUS);
             expect(selectCampusAction.campus).to.equal(marsCampus);
@@ -255,10 +255,10 @@ describe('Tier Two', () => {
 
       describe('setting multiple campuses', () => {
 
-        describe('action creator', () => {
+        describe('`fetchCampuses` thunk creator', () => {
           // defined in ../client/redux/actions.js
 
-          xit('fetchCampuses() returns a thunk to fetch campuses from the backend and dispatch a SET_CAMPUSES action', async () => {
+          xit('returns a thunk to fetch campuses from the backend and dispatch a SET_CAMPUSES action', async () => {
             mock.onGet('/api/campuses').replyOnce(200, campuses);
             await store.dispatch(fetchCampuses())
             const actions = store.getActions();

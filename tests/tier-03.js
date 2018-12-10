@@ -59,10 +59,10 @@ describe('Tier Three', () => {
     });
 
     describe('Student', () => {
-      describe('Class method - findByPhase', () => {
+      describe('Class method `findByPhase`', () => {
         // defined in ../server/models/Student.js
 
-        xit('should find all students belonging to a certain phase', async () => {
+        xit('finds all students belonging to a certain phase', async () => {
           const students = await Student.findByPhase('junior')
           expect(students.length).to.be.equal(1);
           expect(students[0].name).to.be.equal('Terry Witz');
@@ -75,7 +75,7 @@ describe('Tier Three', () => {
       describe('GET `/api/campuses/:id` route enhanced', () => {
         // defined in ../server/routes/campuses.js
 
-        xit('should populate (eager-load) the student information for the found campus', async () => {
+        xit('populates (eager-load) the student information for the found campus', async () => {
           const response = await agent.get('/api/campuses/1').expect(200);
           expect(response.body.students.length).to.equal(2);
           expect(response.body.students[0].name).to.exist;
@@ -83,7 +83,7 @@ describe('Tier Three', () => {
       })
 
       describe('POST `/api/campuses/` route', () => {
-        xit('should create a campus', async () => {
+        xit('creates a campus', async () => {
           // defined in ../server/routes/campuses.js
 
           const response = await agent.post('/api/campuses')
@@ -99,7 +99,7 @@ describe('Tier Three', () => {
       describe('POST `/api/campuses/:id/students` route', () => {
         // defined in ../server/routes/campuses.js
 
-        xit('should create a student associated with the campus indicated by the route', async () => {
+        xit('creates a student associated with the campus indicated by the route', async () => {
           const response = await agent.post('/api/campuses/1/students')
             .send({
               name: 'Karley Remoteson',
@@ -125,16 +125,16 @@ describe('Tier Three', () => {
         campusInputInstance = renderedCampusInput.instance();
       })
 
-      xit('should be a class component with an initial local state', () => {
+      xit('is a class component with an initial local state', () => {
         expect(campusInputInstance).to.exist;
         expect(campusInputInstance.state).to.eql({name: ''});
       })
 
-      xit('should render an <input /> element', () => {
+      xit('renders an <input /> element', () => {
         expect(renderedCampusInput.find('input').node).to.exist;
       })
 
-      xit('should have a method called handleChange that is invoked when there is a change event triggered by the <input /> element', () => {
+      xit('has a method called `handleChange` that is invoked when there is a change event triggered by the <input /> element', () => {
         expect(typeof campusInputInstance.handleChange).to.equal('function')
         const handleChangeSpy = sinon.spy()
         campusInputInstance.handleChange = handleChangeSpy;
@@ -145,7 +145,7 @@ describe('Tier Three', () => {
         expect(handleChangeSpy.calledOnce).to.equal(true);
       })
 
-      xit('handleChange should update the local state', () => {
+      xit('`handleChange` updates the local state', () => {
         renderedCampusInput.find('input').simulate('change', {
           target: { value: 'Another Campus Name' }
         })
@@ -174,21 +174,30 @@ describe('Tier Three', () => {
           mock.restore();
         })
 
-        xit('should allow synchronous creation of ADD_CAMPUS actions', () => {
-          const addCampusAction = addCampus(starfleetCampus);
-          expect(addCampusAction.type).to.equal(ADD_CAMPUS);
-          expect(addCampusAction.campus).to.eql(starfleetCampus);
+        describe('`addCampusAction`', () => {
+
+          xit('creates an ADD_CAMPUS action', () => {
+            const addCampusAction = addCampus(starfleetCampus);
+            expect(addCampusAction.type).to.equal(ADD_CAMPUS);
+            expect(addCampusAction.campus).to.eql(starfleetCampus);
+          });
+
         });
 
-        xit('postCampus() returns a thunk to post a new campus to the backend and dispatch an ADD_CAMPUS action', async () => {
-          mock.onPost('/api/campuses').replyOnce(201, starfleetCampus);
+        describe('`postCampus`', () => {
 
-          await store.dispatch(postCampus(starfleetCampus))
-          const actions = store.getActions();
-          expect(actions[0].type).to.equal('ADD_CAMPUS');
-          expect(actions[0].campus).to.deep.equal(starfleetCampus);
-          await Campus.findById(1)
+          xit('returns a thunk to post a new campus to the backend and dispatch an ADD_CAMPUS action', async () => {
+            mock.onPost('/api/campuses').replyOnce(201, starfleetCampus);
+
+            await store.dispatch(postCampus(starfleetCampus))
+            const actions = store.getActions();
+            expect(actions[0].type).to.equal('ADD_CAMPUS');
+            expect(actions[0].campus).to.deep.equal(starfleetCampus);
+            await Campus.findById(1)
+          });
+
         });
+
       })
 
       describe('reducer', () => {
@@ -235,65 +244,70 @@ describe('Tier Three', () => {
       expect(throttledFunction).to.be.a('function');
     });
 
-    xit('the returned throttled function runs the original function and upon invocation passes it the same arguments', () => {
-      const spiedFunction = chai.spy();
-      const throttleTime = 50;
-      const throttledFunction = utils.throttle(spiedFunction, throttleTime);
-      // `throttle` itself does not call the original function
-      expect(spiedFunction).not.to.have.been.called;
-      throttledFunction(1, 'omri', 'polar bear');
-      // calling the throttled function (the result of `throttle`) calls the original function
-      expect(spiedFunction).to.have.been.called.once;
-      expect(spiedFunction).to.have.been.called.with.exactly(1, 'omri', 'polar bear');
-    })
+    describe('returned throttled function', () => {
 
-    xit('the throttled function ensures that multiple function calls within the throttling period will not invoke the original function', (done) => {
-      const spiedFunction = chai.spy();
-      const throttleTime = 50;
-      const throttledFunction = utils.throttle(spiedFunction, throttleTime);
-      expect(spiedFunction).not.to.have.been.called;
-      throttledFunction();
-      expect(spiedFunction).to.have.been.called.once;
-      throttledFunction();
-      throttledFunction();
-      // wait period has not been long enough, so the original function is not called a second time
-      expect(spiedFunction).to.have.been.called.once;
-      setTimeout(() => {
+      xit('runs the original function and upon invocation passes it the same arguments', () => {
+        const spiedFunction = chai.spy();
+        const throttleTime = 50;
+        const throttledFunction = utils.throttle(spiedFunction, throttleTime);
+        // `throttle` itself does not call the original function
+        expect(spiedFunction).not.to.have.been.called;
+        throttledFunction(1, 'omri', 'polar bear');
+        // calling the throttled function (the result of `throttle`) calls the original function
+        expect(spiedFunction).to.have.been.called.once;
+        expect(spiedFunction).to.have.been.called.with.exactly(1, 'omri', 'polar bear');
+      })
+
+      xit('ensures that multiple function calls within the throttling period will not invoke the original function', (done) => {
+        const spiedFunction = chai.spy();
+        const throttleTime = 50;
+        const throttledFunction = utils.throttle(spiedFunction, throttleTime);
+        expect(spiedFunction).not.to.have.been.called;
+        throttledFunction();
+        expect(spiedFunction).to.have.been.called.once;
         throttledFunction();
         throttledFunction();
-        // wait period still has not been long enough, so the original function is not called a second time
+        // wait period has not been long enough, so the original function is not called a second time
         expect(spiedFunction).to.have.been.called.once;
         setTimeout(() => {
-          // previous invocations of the throttled function do NOT trigger the original to be called later
-          expect(spiedFunction).to.have.been.called.once;
-          done();
-        }, 70);
-      }, 40);
-    });
-
-    xit('the throttled function can invoke the original function after the throttling period is over', (done) => {
-      const spiedFunction = chai.spy();
-      const throttleTime = 50;
-      const throttledFunction = utils.throttle(spiedFunction, throttleTime);
-      throttledFunction();
-      setTimeout(() => {
-        throttledFunction();
-        // wait period has been long enough, so the original function is called a second time
-        expect(spiedFunction).to.have.been.called.twice;
-        throttledFunction();
-        // wait period has not been long enough, so the original function is NOT called a third time
-        expect(spiedFunction).to.have.been.called.twice;
-        setTimeout(() => {
           throttledFunction();
-          // wait period has been long enough, so the original function is called a third time
-          expect(spiedFunction).to.have.been.called.exactly(3);
+          throttledFunction();
+          // wait period still has not been long enough, so the original function is not called a second time
+          expect(spiedFunction).to.have.been.called.once;
           setTimeout(() => {
             // previous invocations of the throttled function do NOT trigger the original to be called later
-            expect(spiedFunction).to.have.been.called.exactly(3);
+            expect(spiedFunction).to.have.been.called.once;
             done();
+          }, 70);
+        }, 40);
+      });
+
+      xit('can invoke the original function after the throttling period is over', (done) => {
+        const spiedFunction = chai.spy();
+        const throttleTime = 50;
+        const throttledFunction = utils.throttle(spiedFunction, throttleTime);
+        throttledFunction();
+        setTimeout(() => {
+          throttledFunction();
+          // wait period has been long enough, so the original function is called a second time
+          expect(spiedFunction).to.have.been.called.twice;
+          throttledFunction();
+          // wait period has not been long enough, so the original function is NOT called a third time
+          expect(spiedFunction).to.have.been.called.twice;
+          setTimeout(() => {
+            throttledFunction();
+            // wait period has been long enough, so the original function is called a third time
+            expect(spiedFunction).to.have.been.called.exactly(3);
+            setTimeout(() => {
+              // previous invocations of the throttled function do NOT trigger the original to be called later
+              expect(spiedFunction).to.have.been.called.exactly(3);
+              done();
+            }, 60);
           }, 60);
         }, 60);
-      }, 60);
+      });
+
     });
+
   });
 })
