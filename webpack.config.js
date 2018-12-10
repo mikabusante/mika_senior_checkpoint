@@ -4,7 +4,7 @@ const path = require('path');
 
 module.exports = {
   entry: [
-    'babel-polyfill', // enables async-await
+    '@babel/polyfill', // enables async-await
     './client/index.js',
   ],
   output: {

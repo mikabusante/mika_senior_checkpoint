@@ -15,7 +15,9 @@ const app = require('../server/app');
 const agent = require('supertest')(app);
 
 // CampusList component
-import { shallow } from 'enzyme';
+import enzyme, { shallow } from 'enzyme';
+import Adapter from 'enzyme-adapter-react-16'
+enzyme.configure({ adapter: new Adapter() });
 import React from 'react';
 import { CampusList } from '../client/components/CampusList';
 

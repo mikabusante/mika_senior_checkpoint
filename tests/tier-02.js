@@ -17,7 +17,9 @@ const agent = require('supertest')(app);
 
 // Components
 import React from 'react';
-import { shallow } from 'enzyme';
+import enzyme, { shallow } from 'enzyme';
+import Adapter from 'enzyme-adapter-react-16'
+enzyme.configure({ adapter: new Adapter() });
 import SingleCampus from '../client/components/SingleCampus'
 import SingleStudent from '../client/components/SingleStudent'
 
