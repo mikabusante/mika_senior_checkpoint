@@ -281,8 +281,8 @@ describe('Tier Two', () => {
    * Although for now we won't be integrating this into our end user view,
    * we'd like for you to address the functionality.
    *
-   * Write a function that will take in an array of strings, representing
-   * student names, and the size of groups to be made (number). This
+   * Write a function that will take in an array (where each element represents
+   * a student), and the size of groups to be made (a number). This
    * `generateGroups` function will return an array of arrays of student
    * groups. All students that may not fit evenly into the expected length
    * of groups will be placed in their own group.
