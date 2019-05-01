@@ -2,7 +2,21 @@ Welcome to your final checkpoint at Fullstack Academy!
 
 ## Resources
 
-Except for existing *codebases* (from workshops / checkpoints / projects you've done, or library / solution code), you are allowed to use any resources you'd like. That includes all documentation and workshop *instructions*. This is an individual assessment, so you are not allowed to consult one another.
+Suggested:
+- Student Notes (can contain anything)
+- Documentation
+- Lecture slides
+- Help tickets (esp in case of specs not running or very basic clarification needed)
+
+Use Sparingly:
+- Old checkpoints
+- Workshop code
+- Stack Overflow
+- Copy-pasting
+
+Forbidden:
+- Googling the solution code
+- Communicating via Slack
 
 ## Specs
 
