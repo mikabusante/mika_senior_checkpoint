@@ -2,21 +2,8 @@ Welcome to your final checkpoint at Fullstack Academy!
 
 ## Resources
 
-Suggested:
-- Student Notes (can contain anything)
-- Documentation
-- Lecture slides
-- Help tickets (esp in case of specs not running or very basic clarification needed)
+* [FSA Checkpoint Academic Integrity Policy](https://gist.github.com/short-matthew-f/2ef877e84d6624626ec4fcc5d899936b)
 
-Use Sparingly:
-- Old checkpoints
-- Workshop code
-- Stack Overflow
-- Copy-pasting
-
-Forbidden:
-- Googling the solution code
-- Communicating via Slack
 
 ## Specs
 
