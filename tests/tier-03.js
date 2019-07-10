@@ -18,9 +18,9 @@ const agent = require('supertest')(app);
 // Components
 import React from 'react';
 import enzyme, { shallow } from 'enzyme';
-import Adapter from 'enzyme-adapter-react-16'
+import Adapter from 'enzyme-adapter-react-16';
 enzyme.configure({ adapter: new Adapter() });
-import { CampusInput } from '../client/components/CampusInput'
+import { CampusInput } from '../client/components/CampusInput';
 
 // Redux
 import axios from 'axios';
@@ -46,17 +46,17 @@ describe('Tier Three', () => {
   describe('Back-end', () => {
     beforeEach(async () => {
       const graceHopperCampus = await Campus.create({
-        name: 'Grace Hopper'
+        name: 'Grace Hopper',
       });
       await Student.create({
         name: 'Terry Witz',
         phase: 'junior',
-        campusId: graceHopperCampus.id
+        campusId: graceHopperCampus.id,
       });
       await Student.create({
         name: 'Yuval Ivana',
         phase: 'senior',
-        campusId: graceHopperCampus.id
+        campusId: graceHopperCampus.id,
       });
     });
 
@@ -65,15 +65,14 @@ describe('Tier Three', () => {
         // defined in ../server/models/Student.js
 
         xit('finds all students belonging to a certain phase', async () => {
-          const students = await Student.findByPhase('junior')
+          const students = await Student.findByPhase('junior');
           expect(students.length).to.be.equal(1);
           expect(students[0].name).to.be.equal('Terry Witz');
-        })
-      })
-    })
+        });
+      });
+    });
 
     describe('Campus', () => {
-
       describe('GET `/api/campuses/:id` route enhanced', () => {
         // defined in ../server/routes/campuses.js
 
@@ -81,16 +80,17 @@ describe('Tier Three', () => {
           const response = await agent.get('/api/campuses/1').expect(200);
           expect(response.body.students.length).to.equal(2);
           expect(response.body.students[0].name).to.exist;
-        })
-      })
+        });
+      });
 
       describe('POST `/api/campuses/` route', () => {
         xit('responds with a created campus', async () => {
           // defined in ../server/routes/campuses.js
 
-          const response = await agent.post('/api/campuses')
+          const response = await agent
+            .post('/api/campuses')
             .send({
-              name: 'Fullstack Remote Campus'
+              name: 'Fullstack Remote Campus',
             })
             .expect(201);
           const createdCampus = await Campus.findById(response.body.id);
@@ -102,10 +102,11 @@ describe('Tier Three', () => {
         // defined in ../server/routes/campuses.js
 
         xit('responds with a created student, associated with the campus indicated by the route', async () => {
-          const response = await agent.post('/api/campuses/1/students')
+          const response = await agent
+            .post('/api/campuses/1/students')
             .send({
               name: 'Karley Remoteson',
-              phase: 'junior'
+              phase: 'junior',
             })
             .expect(201);
           const createdStudent = await Student.findById(response.body.id);
@@ -113,8 +114,8 @@ describe('Tier Three', () => {
           expect(createdStudent.campusId).to.be.equal(1);
         });
       });
-    })
-  })
+    });
+  });
 
   describe('front end', () => {
     describe('<CampusInput /> component', () => {
@@ -125,191 +126,187 @@ describe('Tier Three', () => {
       beforeEach(() => {
         renderedCampusInput = shallow(<CampusInput />);
         campusInputInstance = renderedCampusInput.instance();
-      })
+      });
 
       xit('is a class component with an initial local state', () => {
         expect(campusInputInstance).to.exist;
-        expect(campusInputInstance.state).to.eql({name: ''});
-      })
+        expect(campusInputInstance.state).to.eql({ name: '' });
+      });
 
       xit('renders an <input /> element', () => {
         expect(renderedCampusInput.find('input').getElement()).to.exist;
-      })
+      });
 
       xit('has a method called `handleChange` that is invoked when there is a change event triggered by the <input /> element', () => {
-        expect(typeof campusInputInstance.handleChange).to.equal('function')
-        const handleChangeSpy = sinon.spy()
+        expect(typeof campusInputInstance.handleChange).to.equal('function');
+        const handleChangeSpy = sinon.spy();
         campusInputInstance.handleChange = handleChangeSpy;
-        renderedCampusInput.setState({})
+        renderedCampusInput.setState({});
         renderedCampusInput.find('input').simulate('change', {
-          target: { value: 'A New Campus Name' }
-        })
+          target: { value: 'A New Campus Name' },
+        });
         expect(handleChangeSpy.calledOnce).to.equal(true);
-      })
+      });
 
       xit('`handleChange` updates the local state', () => {
         renderedCampusInput.find('input').simulate('change', {
-          target: { value: 'Another Campus Name' }
-        })
-        expect(campusInputInstance.state.name).to.equal('Another Campus Name')
-      })
-
-    })
+          target: { value: 'Another Campus Name' },
+        });
+        expect(campusInputInstance.state.name).to.equal('Another Campus Name');
+      });
+    });
 
     describe('redux store', () => {
-
       describe('action creators', () => {
         // defined in ../client/redux/actions.js
 
-        const starfleetCampus = {id: 1, name: 'Starfleet Academy'}
+        const starfleetCampus = { id: 1, name: 'Starfleet Academy' };
 
         let mock;
         before(() => {
-          mock = new MockAdapter(axios)
-        })
+          mock = new MockAdapter(axios);
+        });
 
         afterEach(() => {
           mock.reset();
-        })
+        });
 
         after(() => {
           mock.restore();
-        })
+        });
 
         describe('`addCampusAction`', () => {
-
           xit('creates an ADD_CAMPUS action', () => {
             const addCampusAction = addCampus(starfleetCampus);
             expect(addCampusAction.type).to.equal(ADD_CAMPUS);
             expect(addCampusAction.campus).to.eql(starfleetCampus);
           });
-
         });
 
         describe('`postCampus`', () => {
-
           xit('returns a thunk to post a new campus to the backend and dispatch an ADD_CAMPUS action', async () => {
             mock.onPost('/api/campuses').replyOnce(201, starfleetCampus);
 
-            await store.dispatch(postCampus(starfleetCampus))
+            await store.dispatch(postCampus(starfleetCampus));
             const actions = store.getActions();
             expect(actions[0].type).to.equal('ADD_CAMPUS');
             expect(actions[0].campus).to.deep.equal(starfleetCampus);
-            await Campus.findById(1)
+            await Campus.findById(1);
           });
-
         });
-
-      })
+      });
 
       describe('reducer', () => {
-          // defined in ../client/redux/reducer.js
+        // defined in ../client/redux/reducer.js
 
         xit('returns a new state with the newly created campus added to the list of campuses', () => {
-          const remoteCampus = {id: 1, name: 'Fullstack Remote Campus'}
-          const starfleetCampus = {id: 2, name: 'Starfleet Academy'}
+          const remoteCampus = { id: 1, name: 'Fullstack Remote Campus' };
+          const starfleetCampus = { id: 2, name: 'Starfleet Academy' };
           initialState.campuses = [remoteCampus];
 
-          const newState = reducer(
-            initialState,
-            {
-              type: ADD_CAMPUS,
-              campus: starfleetCampus
-            }
-          );
+          const newState = reducer(initialState, {
+            type: ADD_CAMPUS,
+            campus: starfleetCampus,
+          });
           expect(newState.campuses.length).to.equal(2);
-          expect(newState.campuses.find((campus => campus.name === 'Starfleet Academy'))).to.deep.equal(starfleetCampus);
+          expect(
+            newState.campuses.find(
+              campus => campus.name === 'Starfleet Academy'
+            )
+          ).to.deep.equal(starfleetCampus);
           expect(newState.students).to.equal(initialState.students);
           expect(newState.selectedCampus).to.equal(initialState.selectedCampus);
         });
-      })
-    })
-  })
-
-  // defined in ../utils/index.js
-  /*
-    When we go to generate groups of students, the processing is very slow.
-    Therefore, an end user may not realize the time it takes, and click the 'Generate Pairs' button time and time again, thinking it's not working.
-    To counter this, we essentially want to LIMIT how often a function can run per unit time.
-    Write a `throttle` method that will wrap a function and a throttle time (t).
-    This wrapped function will only run the original function once for every unit t.
-    Subsequent function calls within this period will be ignored until the period (t) expires.
-  */
-
-  describe('`throttle` utility method', () => {
-    xit('takes a function and a number (throttle time - in milliseconds) and returns a throttled function', () => {
-      const funcToThrottle = (name) => {
-        console.log(`What up ${name}`);
-      }
-      const throttleTime = 50;
-      const throttledFunction = utils.throttle(funcToThrottle, throttleTime);
-      expect(throttledFunction).to.be.a('function');
-    });
-
-    describe('returned throttled function', () => {
-
-      xit('runs the original function and upon invocation passes it the same arguments', () => {
-        const spiedFunction = chai.spy();
-        const throttleTime = 50;
-        const throttledFunction = utils.throttle(spiedFunction, throttleTime);
-        // `throttle` itself does not call the original function
-        expect(spiedFunction).not.to.have.been.called;
-        throttledFunction(1, 'omri', 'polar bear');
-        // calling the throttled function (the result of `throttle`) calls the original function
-        expect(spiedFunction).to.have.been.called.once;
-        expect(spiedFunction).to.have.been.called.with.exactly(1, 'omri', 'polar bear');
-      })
-
-      xit('ensures that multiple function calls within the throttling period will not invoke the original function', (done) => {
-        const spiedFunction = chai.spy();
-        const throttleTime = 50;
-        const throttledFunction = utils.throttle(spiedFunction, throttleTime);
-        expect(spiedFunction).not.to.have.been.called;
-        throttledFunction();
-        expect(spiedFunction).to.have.been.called.once;
-        throttledFunction();
-        throttledFunction();
-        // wait period has not been long enough, so the original function is not called a second time
-        expect(spiedFunction).to.have.been.called.once;
-        setTimeout(() => {
-          throttledFunction();
-          throttledFunction();
-          // wait period still has not been long enough, so the original function is not called a second time
-          expect(spiedFunction).to.have.been.called.once;
-          setTimeout(() => {
-            // previous invocations of the throttled function do NOT trigger the original to be called later
-            expect(spiedFunction).to.have.been.called.once;
-            done();
-          }, 70);
-        }, 40);
       });
-
-      xit('can invoke the original function after the throttling period is over', (done) => {
-        const spiedFunction = chai.spy();
-        const throttleTime = 50;
-        const throttledFunction = utils.throttle(spiedFunction, throttleTime);
-        throttledFunction();
-        setTimeout(() => {
-          throttledFunction();
-          // wait period has been long enough, so the original function is called a second time
-          expect(spiedFunction).to.have.been.called.twice;
-          throttledFunction();
-          // wait period has not been long enough, so the original function is NOT called a third time
-          expect(spiedFunction).to.have.been.called.twice;
-          setTimeout(() => {
-            throttledFunction();
-            // wait period has been long enough, so the original function is called a third time
-            expect(spiedFunction).to.have.been.called.exactly(3);
-            setTimeout(() => {
-              // previous invocations of the throttled function do NOT trigger the original to be called later
-              expect(spiedFunction).to.have.been.called.exactly(3);
-              done();
-            }, 60);
-          }, 60);
-        }, 60);
-      });
-
     });
-
   });
-})
+  // defined in ../utils/index.js
+
+  /**
+   * One thing we'd like for each campus is to generate groups of students.
+   * Although for now we won't be integrating this into our end user view,
+   * we'd like for you to address the functionality.
+   *
+   * Write a function that will take in an array (where each element represents
+   * a student), and the size of groups to be made (a number). This
+   * `generateGroups` function will return an array of arrays of student
+   * groups. All students that may not fit evenly into the expected length
+   * of groups will be placed in their own group.
+   */
+
+  describe('`generateGroups` utility method', () => {
+    xit('takes an array and a number (size) and returns an array', () => {
+      const groupsA = utils.generateGroups(
+        ['red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'violet'],
+        1
+      );
+      expect(groupsA).to.be.an('array');
+      const groupsB = utils.generateGroups(
+        [
+          'types',
+          {
+            dont: 'matter',
+          },
+          0,
+        ],
+        3
+      );
+      expect(groupsB).to.be.an('array');
+    });
+
+    xit('groups the input array elements into nested arrays of the given size, such that the nested arrays contain the original elements in the original order', () => {
+      const groupsA = utils.generateGroups(['a', 'b', 'c', 'd'], 2);
+      expect(groupsA).to.deep.equal([['a', 'b'], ['c', 'd']]);
+      const groupsB = utils.generateGroups(
+        ['up', 'charm', 'top', 'down', 'strange', 'bottom'],
+        3
+      );
+      expect(groupsB).to.deep.equal([
+        ['up', 'charm', 'top'],
+        ['down', 'strange', 'bottom'],
+      ]);
+    });
+
+    xit('handles inexact multiples by putting the remainder in the last group', () => {
+      const groupsA = utils.generateGroups(
+        [
+          {
+            id: 5,
+          },
+          {
+            id: 10,
+          },
+          {
+            id: 20,
+          },
+        ],
+        2
+      );
+      // by the way, any objects in the input array can be added into the groups by reference, no need to copy / clone them
+      expect(groupsA).to.deep.equal([
+        [
+          {
+            id: 5,
+          },
+          {
+            id: 10,
+          },
+        ],
+        [
+          {
+            id: 20,
+          },
+        ],
+      ]);
+      const groupsB = utils.generateGroups(
+        ['do', 're', 'me', 'fa', 'sol', 'la', 'ti', 'do'],
+        3
+      );
+      expect(groupsB).to.deep.equal([
+        ['do', 're', 'me'],
+        ['fa', 'sol', 'la'],
+        ['ti', 'do'],
+      ]);
+    });
+  });
+});
