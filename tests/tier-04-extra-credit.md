@@ -24,4 +24,8 @@ Use the `fetchCampuses` thunk creator to fetch all the campuses and update your 
 
 Add a submit button with click handler. Write a handleSubmit function that will invoke your thunk creator `postCampus` with the data from your form. `handleSubmit` should be invoked when the button is clicked.
 
+## Throttle - 5 pts
+
+When we go to generate groups of students, the processing is very slow. Therefore, an end user may not realize the time it takes, and click the 'Generate Pairs' button time and time again, thinking it's not working. To counter this, we essentially want to LIMIT how often a function can run per unit time. Write a `throttle` method that will wrap a function and a throttle time (t). This wrapped function will only run the original function once for every unit t. Subsequent function calls within this period will be ignored until the period (t) expires.
+
 Have fun!

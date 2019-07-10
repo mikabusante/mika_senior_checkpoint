@@ -8,7 +8,7 @@ export const setCampuses = () => {
 };
 
 export const selectCampus = () => {
-  //you code here
+  //this action object should contain a key called `campus`
 };
 
 export const addCampus = () => {

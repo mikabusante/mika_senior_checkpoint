@@ -18,10 +18,12 @@ const agent = require('supertest')(app);
 // Components
 import React from 'react';
 import enzyme, { shallow } from 'enzyme';
-import Adapter from 'enzyme-adapter-react-16'
-enzyme.configure({ adapter: new Adapter() });
-import SingleCampus from '../client/components/SingleCampus'
-import SingleStudent from '../client/components/SingleStudent'
+import Adapter from 'enzyme-adapter-react-16';
+enzyme.configure({
+  adapter: new Adapter(),
+});
+import SingleCampus from '../client/components/SingleCampus';
+import SingleStudent from '../client/components/SingleStudent';
 
 // Redux
 import axios from 'axios';
@@ -33,7 +35,7 @@ const mockStore = configureMockStore(middlewares);
 const initialState = {
   campuses: [],
   selectedCampus: {},
-  students: []
+  students: [],
 };
 const store = mockStore(initialState);
 import reducer from '../client/redux/reducer';
@@ -56,15 +58,15 @@ describe('Tier Two', () => {
 
         xit('requires `name`', async () => {
           try {
-            await student.validate()
-            throw new Error('Validation succeeded but should have failed')
+            await student.validate();
+            throw new Error('Validation succeeded but should have failed');
           } catch (err) {
             expect(err.message).to.contain('name');
           }
         });
 
         xit('requires `phase` property to be either NULL, "junior", or "senior" (nothing else)', async () => {
-          student.name = "Mariya Dova"
+          student.name = 'Mariya Dova';
 
           // confirming these work fine
           await student.save();
@@ -84,9 +86,10 @@ describe('Tier Two', () => {
           }
 
           // if we got here, that means we DIDN'T fail above, which is wrong.
-          throw Error('Trying to `save` a student with invalid `phase` should have failed.');
+          throw Error(
+            'Trying to `save` a student with invalid `phase` should have failed.'
+          );
         });
-
       });
     });
 
@@ -97,43 +100,45 @@ describe('Tier Two', () => {
       beforeEach(async () => {
         campus1 = await Campus.create({
           id: 1,
-          name: 'Grace Hopper'
+          name: 'Grace Hopper',
         });
 
         await Campus.create({
           id: 2,
-          name: 'Flex'
-        })
+          name: 'Flex',
+        });
 
         student1 = await Student.create({
           name: 'Terry Witz',
           phase: 'junior',
-          campusId: 1
-        })
+          campusId: 1,
+        });
 
         await Student.create({
           name: 'Gaby Medina',
           phase: 'senior',
-          campusId: 2
-        })
+          campusId: 2,
+        });
 
         student3 = await Student.create({
           name: 'Yuval Ivana',
           phase: 'senior',
-          campusId: 1
-        })
+          campusId: 1,
+        });
       });
 
       describe('Campus', () => {
         xit('has associated students', async () => {
-          const result = await campus1.hasStudents([student1, student3])
+          const result = await campus1.hasStudents([student1, student3]);
           expect(result).to.be.true;
         });
       });
 
       describe('GET `/api/campuses/:id/students` route', () => {
         xit('gets all students associated with a campus', async () => {
-          const response = await agent.get('/api/campuses/1/students').expect(200);
+          const response = await agent
+            .get('/api/campuses/1/students')
+            .expect(200);
           expect(response.body).to.have.length(2);
           expect(response.body[0].campusId).to.equal(1);
         });
@@ -147,30 +152,27 @@ describe('Tier Two', () => {
       students: [
         {
           name: 'Amy Wagner',
-          phase: 'senior'
+          phase: 'senior',
         },
         {
           name: 'John Watney',
-          phase: 'junior'
+          phase: 'junior',
         },
         {
           name: 'Marvin Lee',
-          phase: 'junior'
+          phase: 'junior',
         },
         {
           name: 'Valentine Michael Smith',
-          phase: 'senior'
-        }
-      ]
+          phase: 'senior',
+        },
+      ],
     };
 
     // defined in ../client/components/SingleCampus.js
     describe('<SingleCampus /> component', () => {
       const renderedMarsCampus = shallow(
-        <SingleCampus
-          campus={marsCampus}
-          students={marsCampus.students}
-        />
+        <SingleCampus campus={marsCampus} students={marsCampus.students} />
       );
 
       // change campus name to test dynamic rendering
@@ -178,10 +180,7 @@ describe('Tier Two', () => {
       // remove first item to render different list of students
       const firstStudent = marsCampus.students.shift();
       const renderedRedPlanetCampus = shallow(
-        <SingleCampus
-          campus={marsCampus}
-          students={marsCampus.students}
-        />
+        <SingleCampus campus={marsCampus} students={marsCampus.students} />
       );
 
       // reset campus name
@@ -189,41 +188,48 @@ describe('Tier Two', () => {
       // put first student back
       marsCampus.students.unshift(firstStudent);
 
-      xit('renders the name of the campus in an <h2>', () => {
+      xit('renders the name of the campus in an <h2>, which should be inside a <div>', () => {
         expect(renderedMarsCampus.find('h2').text()).to.equal('Mars');
-        expect(renderedRedPlanetCampus.find('h2').text()).to.equal('Red Planet');
+        expect(renderedRedPlanetCampus.find('h2').text()).to.equal(
+          'Red Planet'
+        );
       });
 
-      xit('renders a list of <SingleStudent /> components with the student passed in', () => {
+      // NOTE: The <SingleStudent /> component should take a prop called `student`, which is the student to render
+      xit('renders a list of <SingleStudent /> components with the student passed in, inside of the same <div> as the <h2> name of the campus', () => {
         const renderedMarsStudents = renderedMarsCampus.find(SingleStudent);
         expect(renderedMarsStudents.length).to.equal(4);
-        expect(renderedMarsStudents.get(2).props.student.name).to.equal('Marvin Lee');
+        expect(renderedMarsStudents.get(2).props.student.name).to.equal(
+          'Marvin Lee'
+        );
 
-        const renderedRedPlanetStudents = renderedRedPlanetCampus.find(SingleStudent);
+        const renderedRedPlanetStudents = renderedRedPlanetCampus.find(
+          SingleStudent
+        );
         expect(renderedRedPlanetStudents.length).to.equal(3);
-        expect(renderedRedPlanetStudents.get(2).props.student.name).to.equal('Valentine Michael Smith');
+        expect(renderedRedPlanetStudents.get(2).props.student.name).to.equal(
+          'Valentine Michael Smith'
+        );
       });
     });
 
     describe('Redux', () => {
-
       const campuses = [
         { name: 'New York' },
         { name: 'Chicago' },
-        { name: 'Pluto' }
+        { name: 'Pluto' },
       ];
 
       let mock;
       beforeEach(() => {
-        mock = new MockAdapter(axios)
-      })
+        mock = new MockAdapter(axios);
+      });
 
       afterEach(() => {
         mock.reset();
-      })
+      });
 
       describe('selecting a campus', () => {
-
         describe('`selectCampusAction` action creator', () => {
           // defined in ../client/redux/actions.js
 
@@ -232,19 +238,16 @@ describe('Tier Two', () => {
             expect(selectCampusAction.type).to.equal(SELECT_CAMPUS);
             expect(selectCampusAction.campus).to.equal(marsCampus);
           });
-        })
+        });
 
         describe('reducer', () => {
           // defined in ../client/redux/reducer.js
 
           xit('returns an immutably-updated new state with selected campus', () => {
-            const newState = reducer(
-              initialState,
-              {
-                type: SELECT_CAMPUS,
-                campus: marsCampus
-              }
-            );
+            const newState = reducer(initialState, {
+              type: SELECT_CAMPUS,
+              campus: marsCampus,
+            });
             expect(newState.selectedCampus).to.equal(marsCampus);
             expect(initialState.selectedCampus).to.deep.equal({});
             // these shouldn't have changed:
@@ -252,63 +255,49 @@ describe('Tier Two', () => {
             expect(newState.students).to.equal(initialState.students);
           });
         });
-
       });
 
       describe('setting multiple campuses', () => {
-
         describe('`fetchCampuses` thunk creator', () => {
           // defined in ../client/redux/actions.js
 
           xit('returns a thunk to fetch campuses from the backend and dispatch a SET_CAMPUSES action', async () => {
             mock.onGet('/api/campuses').replyOnce(200, campuses);
-            await store.dispatch(fetchCampuses())
+            await store.dispatch(fetchCampuses());
             const actions = store.getActions();
             expect(actions[0].type).to.equal('SET_CAMPUSES');
             expect(actions[0].campuses).to.deep.equal(campuses);
           });
-        })
-
-      })
-
+        });
+      });
     });
   });
 
-  // defined in ../utils/index.js
-
-  /**
-   * One thing we'd like for each campus is to generate groups of students.
-   * Although for now we won't be integrating this into our end user view,
-   * we'd like for you to address the functionality.
-   *
-   * Write a function that will take in an array (where each element represents
-   * a student), and the size of groups to be made (a number). This
-   * `generateGroups` function will return an array of arrays of student
-   * groups. All students that may not fit evenly into the expected length
-   * of groups will be placed in their own group.
-   */
-
-  describe('`generateGroups` utility method', () => {
-    xit('takes an array and a number (size) and returns an array', () => {
-      const groupsA = utils.generateGroups(['red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'violet'], 1);
-      expect(groupsA).to.be.an('array');
-      const groupsB = utils.generateGroups(['types', {dont: 'matter'}, 0], 3);
-      expect(groupsB).to.be.an('array');
+  // One of our upstream APIs is busted. It's supposed to return a nice object with keys and values. Instead, it's spitting out key-value pairs in an array where keys are the odd elements of the input array and the corresponding values are the even elements of the input array
+  //
+  // Write a function that can take an array of successive key-value pairs and turn it into a nice little object, where the zeroth element is the first key and the element right after it is the first value. See the examples below:
+  describe('`makeObjectFromArray` utility method', () => {
+    xit('takes an array and returns an object', () => {
+      const output = utils.makeObjectFromArray([]);
+      expect(output).to.be.an('object');
     });
+    xit('Turns successive pairs of array elements into key-value pairs in the object', () => {
+      const output1 = utils.makeObjectFromArray([]);
+      expect(output1).to.deep.equal({});
 
-    xit('groups the input array elements into nested arrays of the given size, such that the nested arrays contain the original elements in the original order', () => {
-      const groupsA = utils.generateGroups(['a', 'b', 'c', 'd'], 2);
-      expect(groupsA).to.deep.equal([['a', 'b'], ['c', 'd']]);
-      const groupsB = utils.generateGroups(['up', 'charm', 'top', 'down', 'strange', 'bottom'], 3);
-      expect(groupsB).to.deep.equal([['up', 'charm', 'top'], ['down', 'strange', 'bottom']]);
-    });
-
-    xit('handles inexact multiples by putting the remainder in the last group', () => {
-      const groupsA = utils.generateGroups([{id: 5}, {id: 10}, {id: 20}], 2);
-      // by the way, any objects in the input array can be added into the groups by reference, no need to copy / clone them
-      expect(groupsA).to.deep.equal([[{id: 5}, {id: 10}], [{id: 20}]]);
-      const groupsB = utils.generateGroups(['do', 're', 'me', 'fa', 'sol', 'la', 'ti', 'do'], 3);
-      expect(groupsB).to.deep.equal([['do', 're', 'me'], ['fa', 'sol', 'la'], ['ti', 'do']]);
+      const output2 = utils.makeObjectFromArray([
+        'height',
+        189,
+        'weight',
+        203,
+        'affiliation',
+        'Rebel Alliance',
+      ]);
+      expect(output2).to.deep.equal({
+        height: 189,
+        weight: 203,
+        affiliation: 'Rebel Alliance',
+      });
     });
   });
 });
