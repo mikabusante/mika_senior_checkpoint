@@ -129,7 +129,7 @@ describe('Tier Two', () => {
 
       describe('Campus', () => {
         xit('has associated students', async () => {
-          const result = await campus1.hasStudents([student1, student3])
+          const result = await campus1.hasStudents([student1, student3]);
           expect(result).to.be.true;
         });
       });
@@ -172,10 +172,7 @@ describe('Tier Two', () => {
     // defined in ../client/components/SingleCampus.js
     describe('<SingleCampus /> component', () => {
       const renderedMarsCampus = shallow(
-        <SingleCampus
-          campus={marsCampus}
-          students={marsCampus.students}
-        />
+        <SingleCampus campus={marsCampus} students={marsCampus.students} />
       );
 
       // change campus name to test dynamic rendering
@@ -183,10 +180,7 @@ describe('Tier Two', () => {
       // remove first item to render different list of students
       const firstStudent = marsCampus.students.shift();
       const renderedRedPlanetCampus = shallow(
-        <SingleCampus
-          campus={marsCampus}
-          students={marsCampus.students}
-        />
+        <SingleCampus campus={marsCampus} students={marsCampus.students} />
       );
 
       // reset campus name
@@ -220,11 +214,10 @@ describe('Tier Two', () => {
     });
 
     describe('Redux', () => {
-
       const campuses = [
         { name: 'New York' },
         { name: 'Chicago' },
-        { name: 'Pluto' }
+        { name: 'Pluto' },
       ];
 
       let mock;
@@ -251,13 +244,10 @@ describe('Tier Two', () => {
           // defined in ../client/redux/reducer.js
 
           xit('returns an immutably-updated new state with selected campus', () => {
-            const newState = reducer(
-              initialState,
-              {
-                type: SELECT_CAMPUS,
-                campus: marsCampus
-              }
-            );
+            const newState = reducer(initialState, {
+              type: SELECT_CAMPUS,
+              campus: marsCampus,
+            });
             expect(newState.selectedCampus).to.equal(marsCampus);
             expect(initialState.selectedCampus).to.deep.equal({});
             // these shouldn't have changed:
@@ -283,7 +273,8 @@ describe('Tier Two', () => {
     });
   });
 
-  // One of our upstream APIs is busted. It's supposed to return a nice object with keys and values. Instead, it's spitting out key-value pairs in an array where the first element is a key, the second is its value, the third is another key, the fourth is that other key's value, and so on.
+  // One of our upstream APIs is busted. It's supposed to return a nice object with keys and values. Instead, it's spitting out key-value pairs in an array where keys are the odd elements of the input array and the corresponding values are the even elements of the input array
+  //
   // Write a function that can take an array of successive key-value pairs and turn it into a nice little object, where the zeroth element is the first key and the element right after it is the first value. See the examples below:
   describe('`makeObjectFromArray` utility method', () => {
     xit('takes an array and returns an object', () => {
