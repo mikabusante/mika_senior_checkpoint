@@ -2,7 +2,7 @@
 
 There are no tests for the extra credit!! We will look over your code manually to grade it.
 
-First, STOP AND COMMIT YOUR WORK. It is possible depending on your extra credit implementation that some of your other specs will break. Please commit right before starting with a message that clearly states that you've finished the other specs and are ready to move on to the extra credit. This will help us grade more easily.
+First, STOP AND COMMIT YOUR WORK. It is possible depending on your extra credit implementation that some of your other specs will break. Please commit right before starting with a message that clearly states that you've finished the other specs. Then, when you are ready to move on to the extra credit, create an `extra-credit` branch. This will help us grade more easily. Submit a help ticket if you need help creating this branch.
 
 To get a total of 6 extra points, you may hook up the <CampusList /> component and <CampusInput /> component to the store.
 
