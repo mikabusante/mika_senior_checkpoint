@@ -143,14 +143,14 @@ describe('Tier Three', () => {
         campusInputInstance.handleChange = handleChangeSpy;
         renderedCampusInput.setState({});
         renderedCampusInput.find('input').simulate('change', {
-          target: { value: 'A New Campus Name' },
+          target: { value: 'A New Campus Name', name: 'name' },
         });
         expect(handleChangeSpy.calledOnce).to.equal(true);
       });
 
       xit('`handleChange` updates the local state', () => {
         renderedCampusInput.find('input').simulate('change', {
-          target: { value: 'Another Campus Name' },
+          target: { value: 'Another Campus Name', name: 'name' },
         });
         expect(campusInputInstance.state.name).to.equal('Another Campus Name');
       });
