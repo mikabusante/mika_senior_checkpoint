@@ -1,12 +1,24 @@
 /* eslint react/no-unused-state:0 */
-import React, { Component } from 'react';
+import React, { Component } from "react";
+import e from "express";
 
 export class CampusInput extends Component {
+  constructor() {
+    super();
+    this.state = {
+      name: ""
+    };
+    this.handleChange = this.handleChange.bind(this);
+  }
 
-  //your code here
+  handleChange(e) {
+    this.setState({
+      name: e.target.value
+    });
+  }
 
   render() {
     //your code here
-    return null;
+    return <input onChange={e => this.handleChange(e)} />;
   }
 }

@@ -2,8 +2,12 @@
 
 const utils = {};
 
-utils.getInitials = () => {
-  //your code here
+utils.getInitials = str => {
+  let words = str.split(" ");
+
+  let initials = words.map(word => word.slice(0, 1).toUpperCase());
+
+  return initials.join("");
 };
 
 utils.makeObjectFromArray = input => {
@@ -16,9 +20,19 @@ utils.makeObjectFromArray = input => {
   //     - example: {name: 'R2-D2', home_planet: 'Tatooine'}
   //
   //your code here
+  let result = {};
+
+  for (let i = 0; i < input.length; i++) {
+    if (i % 2 === 0) {
+      result[input[i]] = "";
+    } else {
+      result[input[i - 1]] = input[i];
+    }
+  }
+  return result;
 };
 
-utils.generateGroups = () => {
+utils.generateGroups = (arr, size) => {
   // INPUT arguments
   //   - A 1-dimensional array
   //   - The length of each subgroup that should be created
@@ -27,6 +41,22 @@ utils.generateGroups = () => {
   //   - A 2-dimensional array of arrays. Each subarray should be as long as the length argument passed in to the function, except for the final subarray, which can be shorter and contain a "remainder" smaller than that length.
   //
   //your code here
+  let result = [];
+
+  while (arr.length) {
+    let subArr = [];
+
+    for (let i = 0; i < size; i++) {
+      if (arr.length !== 0) {
+        subArr.push(arr.shift());
+      }
+    }
+
+    result.push(subArr);
+    subArr = [];
+  }
+
+  return result;
 };
 
 module.exports = utils;
